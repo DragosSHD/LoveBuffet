@@ -30,13 +30,13 @@ const profileOptions = [
   {
     label: "Account",
     key: "account",
-    disabled: false,
+    disabled: true,
     icon: renderIcon(UserAlt)
   },
   {
     label: "Edit data",
     key: "edit",
-    disabled: false,
+    disabled: true,
     icon: renderIcon(UserEdit)
   }
 ];
@@ -45,25 +45,25 @@ const pagesOptions = [
   {
     label: "Home",
     key: "home",
-    disabled: false,
+    disabled: true,
     icon: renderIcon(Home)
   },
   {
     label: "Preferences",
     key: "preferences",
-    disabled: false,
+    disabled: true,
     icon: renderIcon(Heart)
   },
   {
     label: "Favourites",
     key: "favourites",
-    disabled: false,
+    disabled: true,
     icon: renderIcon(Star)
   },
   {
     label: "History",
     key: "history",
-    disabled: false,
+    disabled: true,
     icon: renderIcon(History)
   },
 ];

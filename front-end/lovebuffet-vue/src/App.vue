@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <h1>Hello World!</h1>
+  <router-view></router-view>
   <n-config-provider :theme-overrides="themeOverrides">
     <Footer />
   </n-config-provider>
