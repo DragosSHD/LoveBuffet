@@ -7,10 +7,12 @@
         </n-icon>
       </n-gi>
       <n-gi class="grid-item center">
-        <n-image alt="love-buffet-logo"
-                 src="./src/assets/img/logo.png"
-                 width="120"
-                 preview-disabled></n-image>
+        <router-link to="/">
+          <n-image alt="love-buffet-logo"
+                   src="./src/assets/img/logo.png"
+                   width="120"
+                   preview-disabled></n-image>
+        </router-link>
       </n-gi>
       <n-gi class="grid-item" span="0 m:2 l:3">
         <n-menu id="desk-menu" mode="horizontal" :options="menuOptions"/>
@@ -33,19 +35,40 @@ import { RouterLink } from "vue-router";
 
 const menuOptions = [
   {
-    label: "Preferences",
+    label: () =>
+      h(
+        RouterLink,
+          {
+            to: '/preferences'
+          },
+          () => 'Preferences'
+      ),
     key: "preferences",
-    disabled: true,
+    disabled: false,
   },
   {
-    label: "Favourites",
+    label: () =>
+        h(
+            RouterLink,
+            {
+              to: '/favourites'
+            },
+            () => 'Favourites'
+        ),
     key: "favourites",
-    disabled: true
+    disabled: false
   },
   {
-    label: "History",
+    label: () =>
+        h(
+            RouterLink,
+            {
+              to: '/history'
+            },
+            () => 'History'
+        ),
     key: "history",
-    disabled: true
+    disabled: false
   }
 ]
 

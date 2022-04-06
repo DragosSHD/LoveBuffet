@@ -3,11 +3,14 @@
     <n-grid x-gap="10" cols="1 s:2 m:3 l:3" responsive="screen">
       <n-gi>
         <h3>Pages</h3>
-        <n-menu :options="pagesOptions"></n-menu>
+        <n-menu :indent="15"
+                v-model:value="activeKey"
+                :options="pagesOptions"></n-menu>
       </n-gi>
       <n-gi span="0 s:1">
         <h3>Profile</h3>
-        <n-menu :options="profileOptions"></n-menu>
+        <n-menu :indent="15"
+                :options="profileOptions"></n-menu>
       </n-gi>
       <n-gi span="0 m:1">
       </n-gi>
@@ -18,9 +21,10 @@
 </template>
 
 <script>
-import { NGrid, NDivider, NGi, NMenu, NIcon, NImage } from "naive-ui"
+import { NGrid, NDivider, NGi, NMenu, NIcon } from "naive-ui"
 import { Home, Heart, Star, History, UserAlt, UserEdit } from "@vicons/fa"
-import { h } from "vue";
+import { h, ref } from "vue";
+import {RouterLink} from "vue-router";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -28,14 +32,14 @@ function renderIcon(icon) {
 
 const profileOptions = [
   {
-    label: "Account",
-    key: "account",
+    label: 'Account',
+    key: 'account',
     disabled: true,
     icon: renderIcon(UserAlt)
   },
   {
-    label: "Edit data",
-    key: "edit",
+    label: 'Edit data',
+    key: 'edit',
     disabled: true,
     icon: renderIcon(UserEdit)
   }
@@ -43,33 +47,61 @@ const profileOptions = [
 
 const pagesOptions = [
   {
-    label: "Home",
-    key: "home",
-    disabled: true,
+    label: () =>
+        h(
+            RouterLink,
+            {
+              to: '/'
+            },
+            () => 'Home'
+        ),
+    key: 'home',
+    disabled: false,
     icon: renderIcon(Home)
   },
   {
-    label: "Preferences",
-    key: "preferences",
-    disabled: true,
+    label: () =>
+        h(
+            RouterLink,
+            {
+              to: '/preferences'
+            },
+            () => 'Preferences'
+        ),
+    key: 'preferences',
+    disabled: false,
     icon: renderIcon(Heart)
   },
   {
-    label: "Favourites",
-    key: "favourites",
-    disabled: true,
+    label: () =>
+        h(
+            RouterLink,
+            {
+              to: '/favourites'
+            },
+            () => 'Favourites'
+        ),
+    key: 'favourites',
+    disabled: false,
     icon: renderIcon(Star)
   },
   {
-    label: "History",
-    key: "history",
-    disabled: true,
+    label: () =>
+        h(
+            RouterLink,
+            {
+              to: '/history'
+            },
+            () => 'History'
+        ),
+    key: 'history',
+    disabled: false,
     icon: renderIcon(History)
   },
 ];
 
 export default {
-  name: "Footer",
+  name: 'Footer',
   components: {
     NGrid, NDivider, NGi, NMenu
   },
@@ -80,6 +112,7 @@ export default {
   },
   setup() {
     return {
+      activeKey: ref('history'),
       pagesOptions,
       profileOptions
     }

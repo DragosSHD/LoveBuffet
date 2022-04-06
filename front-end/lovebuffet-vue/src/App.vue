@@ -1,7 +1,9 @@
 <template>
-  <Navbar />
+  <n-config-provider :theme-overrides="themeOverridesNav">
+    <Navbar />
+  </n-config-provider>
   <router-view></router-view>
-  <n-config-provider :theme-overrides="themeOverrides">
+  <n-config-provider :theme-overrides="themeOverridesFooter">
     <Footer />
   </n-config-provider>
 </template>
@@ -11,7 +13,21 @@ import Navbar from "./components/Navbar.vue";
 import Footer from "./components/Footer.vue";
 import { NConfigProvider } from "naive-ui";
 
-const themeOverrides = {
+const themeOverridesFooter = {
+  Menu: {
+    itemColorActive: 'rgba(255,255,255,0.0)',
+    itemColorActiveHover: '#FFFFFF',
+    itemTextColor: '#FFFFFF',
+    itemTextColorActive: '#FFFFFF',
+    itemTextColorActiveHover: "#000000",
+    itemIconColor: '#FFFFFF',
+    itemIconColorActive: '#FFFFFF',
+    itemIconColorHover: '#ea3c5d',
+    paddingLeft: '10px',
+    itemIconColorActiveHover: '#ea3c5d'
+  }
+}
+const themeOverridesNav = {
   Menu: {
     itemTextColor: '#FFFFFF',
     itemIconColor: '#FFFFFF',
@@ -27,7 +43,8 @@ export default {
   },
   setup() {
     return {
-      themeOverrides
+      themeOverridesFooter,
+      themeOverridesNav
     }
   }
 }
