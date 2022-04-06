@@ -8,7 +8,8 @@
       </n-gi>
       <n-gi class="grid-item center">
         <router-link to="/">
-          <n-image alt="love-buffet-logo"
+          <n-image id="site-logo"
+                   alt="love-buffet-logo"
                    src="./src/assets/img/logo.png"
                    width="120"
                    preview-disabled></n-image>
@@ -110,7 +111,12 @@ export default {
     box-shadow: 0 5px 7px 0 rgba(0,0,0,0.37);
     padding: 15px 0 15px 0;
   }
-
+  #site-logo {
+    transition: all ease .3s;
+  }
+  #site-logo:hover {
+    opacity: 70%;
+  }
   .hamburger-btn {
     color: #23b35d;
     transition: color ease .4s;
@@ -122,7 +128,6 @@ export default {
   #desk-menu {
     font-size: 1.5em;
     font-weight: bold;
-    color: #23b35d;
   }
   .mobile-menu {
     position: absolute;
