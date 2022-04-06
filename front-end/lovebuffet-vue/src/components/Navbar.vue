@@ -110,6 +110,7 @@ export default {
     margin-top: 10px;
     background: rgba(255, 255, 255, 50);
     width: 100%;
+    z-index: 10;
     transition: all ease .6s;
   }
 
