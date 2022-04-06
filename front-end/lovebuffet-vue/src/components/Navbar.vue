@@ -12,7 +12,7 @@
                    alt="love-buffet-logo"
                    src="./src/assets/img/logo.png"
                    width="120"
-                   preview-disabled></n-image>
+                   preview-disabled/>
         </router-link>
       </n-gi>
       <n-gi class="grid-item" span="0 m:2 l:3">
