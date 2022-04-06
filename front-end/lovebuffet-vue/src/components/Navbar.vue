@@ -31,7 +31,7 @@
 <script>
 import { NMenu, NGrid, NGi, NImage, NIcon } from "naive-ui";
 import { Bars, UserRegular } from "@vicons/fa";
-import { ref, h } from "vue";
+import { ref, h, watch } from "vue";
 import { RouterLink } from "vue-router";
 
 const menuOptions = [
@@ -82,7 +82,12 @@ export default {
   data: () => {
     return {
       iconSize: 30,
-      showMenu: false
+      showMenu: false,
+    }
+  },
+  watch: {
+    $route (to, from) {
+      this.eraseMenu();
     }
   },
   methods: {
