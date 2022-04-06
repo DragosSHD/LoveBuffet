@@ -36,5 +36,4 @@ export default {
 
 <style>
 @import './assets/base.css';
-
 </style>

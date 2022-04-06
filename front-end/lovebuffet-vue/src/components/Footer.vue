@@ -1,15 +1,15 @@
 <template>
   <footer>
-    <n-grid x-gap="10" cols="3 m:2">
+    <n-grid x-gap="10" cols="1 s:2 m:3 l:3" responsive="screen">
       <n-gi>
         <h3>Pages</h3>
         <n-menu :options="pagesOptions"></n-menu>
       </n-gi>
-      <n-gi>
+      <n-gi span="0 s:1">
         <h3>Profile</h3>
         <n-menu :options="profileOptions"></n-menu>
       </n-gi>
-      <n-gi>
+      <n-gi span="0 m:1">
       </n-gi>
     </n-grid>
     <n-divider/>
@@ -97,6 +97,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-bottom: 25px;
 }
 
 </style>
