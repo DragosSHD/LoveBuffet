@@ -19,9 +19,11 @@
         <n-menu id="desk-menu" mode="horizontal" :options="menuOptions"/>
       </n-gi>
       <n-gi class="grid-item center">
-        <n-icon :size="iconSize" color="#ea3c5d">
-          <UserRegular/>
-        </n-icon>
+        <router-link to="/login">
+          <n-icon :size="iconSize" color="#ea3c5d">
+            <UserRegular/>
+          </n-icon>
+        </router-link>
       </n-gi>
     </n-grid>
     <n-menu class="mobile-menu" :class=" { hide: !showMenu }" mode="vertical" :options="menuOptions" :collapsed="!showMenu"/>
