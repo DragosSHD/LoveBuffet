@@ -2,7 +2,7 @@
   <main>
     <div class="center">
       <div class="title-box">
-        <h2>Sign in</h2>
+        <h2>Log in</h2>
       </div>
       <div class="floating-box">
         <div class="icon-box">
@@ -10,30 +10,14 @@
             <LemonRegular/>
           </n-icon>
         </div>
-        <form>
-          <div class="form-field">
-            <div class="field-icon">
-              <n-icon>
-                <EnvelopeRegular/>
-              </n-icon>
-            </div>
-            <span class="field-group">
-              <label for="email">Email</label>
-              <input type="email" name="email" id="email">
-            </span>
-          </div>
-          <div class="form-field">
-            <div class="field-icon">
-              <n-icon>
-                <Lock/>
-              </n-icon>
-            </div>
-            <span class="field-group">
-              <label for="password">Password</label>
-              <input type="password" name="password" id="password">
-            </span>
-          </div>
-          <input class="submit-btn" type="submit" value="Sign In">
+        <form @submit.prevent="submitLogin">
+          <FormField name="email" type="email">
+            <EnvelopeRegular/>
+          </FormField>
+          <FormField name="password" type="password">
+            <Lock/>
+          </FormField>
+          <input class="submit-btn" type="submit" value="Log In">
         </form>
       </div>
     </div>
@@ -43,12 +27,26 @@
 <script>
 import { NIcon } from "naive-ui";
 import { LemonRegular, EnvelopeRegular, Lock } from "@vicons/fa";
+import FormField from "../components/FormField.vue";
 
 
 export default {
   name: "Login",
   components: {
-    NIcon, LemonRegular, EnvelopeRegular, Lock
+    NIcon, LemonRegular, EnvelopeRegular, Lock, FormField
+  },
+  data () {
+    return {
+      submit: false,
+      email: undefined,
+      password: undefined
+    }
+  },
+  methods: {
+    submitLogin(data) {
+      // TODO: Manage fields data.
+      alert("Hello");
+    }
   }
 }
 </script>
@@ -111,7 +109,7 @@ export default {
   color: #838383;
 }
 .field-group input {
-  border: 0px;
+  border: 0;
   background: transparent;
   border-bottom: 3px solid #23b35d;
 }
