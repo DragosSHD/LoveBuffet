@@ -7,8 +7,8 @@
     </div>
     <span class="field-group">
               <label :for="name">{{ name }}</label>
-              <input :type="type" :name="name" :id="name">
-            </span>
+              <input :value="modelValue" :type="type" :name="name" :id="name" @input="$emit('update:modelValue', $event.target.value)" required>
+    </span>
   </div>
 </template>
 
@@ -22,6 +22,7 @@ export default {
     NIcon
   },
   props: {
+    modelValue: String,
     name: {
       type: String,
       required: true
@@ -29,8 +30,8 @@ export default {
     type: {
       type: String,
       required: true
-    },
-  }
+    }
+  },
 }
 </script>
 

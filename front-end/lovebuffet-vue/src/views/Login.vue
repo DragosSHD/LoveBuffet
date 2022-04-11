@@ -11,10 +11,10 @@
           </n-icon>
         </div>
         <form @submit.prevent="submitLogin">
-          <FormField name="email" type="email">
+          <FormField v-model="email" name="email" type="email" >
             <EnvelopeRegular/>
           </FormField>
-          <FormField name="password" type="password">
+          <FormField v-model="password" name="password" type="password">
             <Lock/>
           </FormField>
           <input class="submit-btn" type="submit" value="Log In">
@@ -38,14 +38,14 @@ export default {
   data () {
     return {
       submit: false,
-      email: undefined,
-      password: undefined
+      email: "",
+      password: ""
     }
   },
   methods: {
-    submitLogin(data) {
+    submitLogin() {
       // TODO: Manage fields data.
-      alert("Hello");
+      alert("Email: " + this.email + "\nPass: " + this.password);
     }
   }
 }
