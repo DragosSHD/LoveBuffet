@@ -20,7 +20,7 @@
       </n-gi>
       <n-gi class="grid-item center">
         <router-link to="/login">
-          <n-icon :size="iconSize" color="#ea3c5d">
+          <n-icon class="user-icon" :size="iconSize">
             <UserRegular/>
           </n-icon>
         </router-link>
@@ -160,5 +160,12 @@ export default {
   }
   .center {
     justify-content: center;
+  }
+  .user-icon {
+    color: #ea3c5d;
+    transition: color ease 0.3s;
+  }
+  .user-icon:hover {
+    color: #23b35d;
   }
 </style>
