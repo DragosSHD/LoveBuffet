@@ -10,10 +10,19 @@
             <AddressCardRegular/>
           </n-icon>
         </div>
-        <form @submit.prevent="submitLogin">
-          <EmailAutoField name="email" type="email">
-
-          </EmailAutoField>
+        <form @submit.prevent="submitRegister">
+          <FormField v-model="email" name="email" type="email">
+            <Envelope/>
+          </FormField>
+          <FormField v-model="username" type="text" name="username">
+            <User/>
+          </FormField>
+          <FormField v-model="password" type="password" name="password">
+            <Unlock/>
+          </FormField>
+          <FormField v-model="confirmPassword" type="password" name="confirmPassword">
+            <Lock/>
+          </FormField>
           <input class="submit-btn" type="submit" value="Register">
         </form>
         <p>You already have an account? Log in <router-link to="/login">here</router-link>.</p>
@@ -25,7 +34,7 @@
 <script>
 import FormField from "../components/FormField.vue";
 import EmailAutoField from "../components/EmailAutoField.vue";
-import { Lock, EnvelopeRegular, AddressCardRegular } from "@vicons/fa";
+import { Lock, Envelope, AddressCardRegular, Unlock, User } from "@vicons/fa";
 import { NAutoComplete, NIcon } from "naive-ui";
 import { computed, ref } from "vue";
 
@@ -33,21 +42,29 @@ import { computed, ref } from "vue";
 export default {
   name: "Register",
   components: {
-    FormField, EnvelopeRegular, AddressCardRegular, Lock, NIcon, NAutoComplete, EmailAutoField
+    FormField, Envelope, AddressCardRegular, Lock, NIcon, NAutoComplete, EmailAutoField,
+    Unlock, User
   },
   data() {
-    const valueRef = ref("");
     return {
-      value: valueRef,
-      options: computed(() => {
-        return ["@gmail.com", "@yahoo.com"].map((suffix) => {
-          const prefix = valueRef.value.split("@")[0];
-          return {
-            label: prefix + suffix,
-            value: prefix + suffix
-          };
-        })
-      })
+      email: "",
+      username: "",
+      password: "",
+      confirmPassword: ""
+    }
+  },
+  methods: {
+    submitRegister() {
+      if(this.password !== this.confirmPassword) {
+        alert("Password does not match!");
+        this.confirmPassword = "";
+      } else {
+        alert("email: " + this.email + "\n" +
+            "username: " + this.username + "\n" +
+            "password: " + this.password + "\n" +
+            "confPass: " + this.confirmPassword);
+      }
+
     }
   }
 }
