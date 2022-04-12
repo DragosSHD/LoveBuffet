@@ -19,6 +19,7 @@
           </FormField>
           <input class="submit-btn" type="submit" value="Log In">
         </form>
+        <p>Don't have an account yet? Register <router-link to="/register">here</router-link>.</p>
       </div>
     </div>
   </main>

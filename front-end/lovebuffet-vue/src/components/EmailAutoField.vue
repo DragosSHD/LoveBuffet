@@ -6,19 +6,42 @@
       </n-icon>
     </div>
     <span class="field-group">
-              <label :for="name">{{ name }}</label>
-              <input :value="modelValue" :type="type" :name="name" :id="name" @input="$emit('update:modelValue', $event.target.value)" required>
+              <label>{{ name }}</label>
+              <n-auto-complete
+                  v-model:value="value"
+                  :input-props="{
+                    autocomplete: 'disabled'
+                  }"
+                  :options="options"
+                  placeholder="Email"
+              />
     </span>
   </div>
 </template>
 
 <script>
-import { NIcon } from "naive-ui";
+import { NIcon, NAutoComplete } from "naive-ui";
+import {computed, ref} from "vue";
 
 export default {
-  name: "FormField",
+  name: "EmailAutoField",
   components: {
-    NIcon
+    NIcon, NAutoComplete
+  },
+  data() {
+    const valueRef = ref("");
+    return {
+      value: valueRef,
+      options: computed(() => {
+        return ["@gmail.com", "@yahoo.com"].map((suffix) => {
+          const prefix = valueRef.value.split("@")[0];
+          return {
+            label: prefix + suffix,
+            value: prefix + suffix
+          };
+        })
+      })
+    }
   },
   props: {
     modelValue: String,
