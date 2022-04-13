@@ -6,7 +6,7 @@
           <Bars/>
         </n-icon>
       </n-gi>
-      <n-gi class="grid-item center">
+      <n-gi class="grid-item center-nav">
         <router-link to="/">
           <n-image id="site-logo"
                    alt="love-buffet-logo"
@@ -18,7 +18,7 @@
       <n-gi class="grid-item" span="0 m:2 l:3">
         <n-menu id="desk-menu" mode="horizontal" :options="menuOptions"/>
       </n-gi>
-      <n-gi class="grid-item center">
+      <n-gi class="grid-item center-nav">
         <router-link to="/login">
           <n-icon class="user-icon" :size="iconSize">
             <UserRegular/>
@@ -158,7 +158,7 @@ export default {
     display: flex;
     align-items: center;
   }
-  .center {
+  .center-nav {
     justify-content: center;
   }
   .user-icon {

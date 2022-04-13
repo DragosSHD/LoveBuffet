@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="center">
+    <div class="center-layout">
       <div class="title-box">
         <h2>Register</h2>
       </div>
@@ -71,13 +71,7 @@ export default {
 </script>
 
 <style scoped>
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  padding: 0 2vw 10vh;
+.center-layout {
   min-height: 80vh;
   background: linear-gradient(90deg, #ea3c5d 19%, rgba(166,227,191,1) 100%, rgba(255,255,255,1) 100%);
 }
