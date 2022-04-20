@@ -1,8 +1,8 @@
 module.exports = app => {
-    const product = require("../controllers/product.controller.js");
+    const user = require("../controllers/user.controller.js");
     const router = require("express").Router();
 
-    router.post("/", (req, res) => {res.send("Route Not Handled!")});
+    router.post("/", user.create);
 
     router.get("/", (req, res) => {res.send("Route Not Handled!")});
 
@@ -13,5 +13,5 @@ module.exports = app => {
     router.delete("/:id", (req, res) => {res.send("Route Not Handled!")});
 
     router.delete("/", (req, res) => {res.send("Route Not Handled!")});
-    app.use("/api/product", router);
+    app.use("/api/user", router);
 };

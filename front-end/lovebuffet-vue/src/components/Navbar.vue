@@ -1,7 +1,7 @@
 <template>
   <nav>
     <n-grid x-gap="12" cols="3 m:4 l:5" item-responsive responsive="screen">
-      <n-gi class="grid-item center" span="1 m:0">
+      <n-gi class="grid-item center-nav" span="1 m:0">
         <n-icon class="hamburger-btn" :class="{active: showMenu}" :size="iconSize" v-on:click="toggleMenu">
           <Bars/>
         </n-icon>
