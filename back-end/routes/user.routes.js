@@ -8,9 +8,9 @@ module.exports = app => {
 
     router.get("/:id", user.getOne);
 
-    router.put("/:id", (req, res) => {res.send("Route Not Handled!")});
+    router.put("/:id", user.update);
 
-    router.delete("/:id", (req, res) => {res.send("Route Not Handled!")});
+    router.delete("/:id", user.delete);
 
     router.delete("/", (req, res) => {res.send("Route Not Handled!")});
     app.use("/api/users", router);

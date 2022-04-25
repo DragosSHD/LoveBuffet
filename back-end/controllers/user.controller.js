@@ -58,26 +58,72 @@ exports.getAll = async (req, res) => {
     res.json(users);
 }
 
+// Get user based on id
 exports.getOne = async (req, res) => {
-    if(!req.params.id)
+    const id = req.params.id;
+    if(!id)
         res.status(400).send({ message: "Id is required!" });
     const data = await prisma.user.findUnique({
         where: {
-            id: parseInt(req.params.id),
+            id: parseInt(id),
         },
+    }).catch((err) => {
+        res.status(500).send({ message: err});
     });
-    const user = {
-        id: data.id,
-        username: data.username,
-        email: data.email,
-        phone: data.phone
+    if(!data)
+        res.status(404).send({ message: "User with id:" + id + " not found."});
+    if(data) {
+        const user = {
+            id: data.id,
+            username: data.username,
+            email: data.email,
+            phone: data.phone
+        }
+        res.json(user);
     }
-    console.log("here");
-    res.json(user);
 }
 
+// Update user
+exports.update = async (req, res) => {
+    const id = req.params.id;
+    const data = req.body;
+    if(data.password) {
+        data.password = hashPassword(data.password);
+    }
+    if(!id)
+        res.status(400).send({ message: "Id is required!" });
+    const updateUser = await prisma.user.update({
+        where: {
+            id: parseInt(id),
+        },
+        data: data
+    }).catch( err => {
+        res.status(500).send({ message: err });
+    })
+    if(updateUser)
+        res.json({
+            id: updateUser.id,
+            username: updateUser.username
+        });
+}
 
-
+// Delete user
+exports.delete = async (req, res) => {
+    const id = req.params.id;
+    if(!id)
+        res.status(400).send({ message: "Id is required!" });
+    const deleteUser = await prisma.user.delete({
+        where: {
+            id: parseInt(id),
+        },
+    }).catch(err => res.status(500).send({ message: err}));
+    if(deleteUser) {
+        res.json({
+            id: deleteUser.id,
+            username: deleteUser.username
+        });
+    }
+}
 
 
 
