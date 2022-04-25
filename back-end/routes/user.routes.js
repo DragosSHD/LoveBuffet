@@ -4,14 +4,14 @@ module.exports = app => {
 
     router.post("/", user.create);
 
-    router.get("/", (req, res) => {res.send("Route Not Handled!")});
+    router.get("/", user.getAll);
 
-    router.get("/:id", (req, res) => {res.send("Route Not Handled!")});
+    router.get("/:id", user.getOne);
 
     router.put("/:id", (req, res) => {res.send("Route Not Handled!")});
 
     router.delete("/:id", (req, res) => {res.send("Route Not Handled!")});
 
     router.delete("/", (req, res) => {res.send("Route Not Handled!")});
-    app.use("/api/user", router);
+    app.use("/api/users", router);
 };
