@@ -32,9 +32,12 @@ exports.create = async (req, res) => {
             preferenceId: data.preferenceId,
             card: data.card
         }
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send({ message: "Could not create account!" })
     });
-
-    res.json(user.username);
+    if(user)
+        res.json(user.username);
 }
 
 // Get all users
