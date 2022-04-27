@@ -12,7 +12,6 @@ function hashPassword(password) {
 exports.create = async (req, res) => {
 
     const data = req.body;
-    console.log(data);
 
     if(!req.body.username)
         return res.status(400).send({ message: "Username is required!" });
@@ -22,12 +21,8 @@ exports.create = async (req, res) => {
         return res.status(400).send({ message: "Password is required!" });
     if(!req.body.phone)
         return res.status(400).send({ message: "Phone is required!" });
-    if(!req.body.address)
-        return res.status(400).send({ message: "Address is required!" });
     if(!req.body.preferences)
         return res.status(400).send({ message: "Preferences are required!" });
-    if(!req.body.card)
-        return res.status(400).send({ message: "Card is required!" });
 
     const user = await prisma.user.create({
         data: {

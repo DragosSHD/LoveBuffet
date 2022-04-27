@@ -11,12 +11,39 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  username String @unique
-  email String @unique
-  password String
-  phone String
-  address Int
-  preferences Int
-  card Int
+  id          Int    @id @default(autoincrement())
+  username    String @unique
+  email       String @unique
+  password    String
+  phone       String
+  address     Address? @relation(fields: [addressId], references: [id])
+  addressId   Int?
+  preferences Preferences @relation(fields: [preferenceID], references: [id])
+  preferenceId Int?
+  card        Card[]
+}
+
+model Card {
+  id     Int      @id @default(autoincrement())
+  number String
+  date   DateTime
+  name   String
+  vcc    String
+  holder   User?    @relation(fields: [holderId], references: [id])
+  holderId Int?
+}
+
+model Address {
+  id Int @id @default(autoincrement())
+  country String
+  city String
+  street String
+  number String
+  users User[]
+}
+
+model PreferenceList {
+  id Int @id @default(autoincrement())
+  no_preferences Int
+  time_spent_cooking Int
 }
