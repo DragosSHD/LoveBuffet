@@ -119,8 +119,6 @@ exports.delete = async (req, res) => {
 }
 
 
-
-
 // Create new user
 exports.authenticate = async (req, res) => {
 
