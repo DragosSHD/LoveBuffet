@@ -21,8 +21,6 @@ exports.create = async (req, res) => {
         return res.status(400).send({ message: "Password is required!" });
     if(!data.phone)
         return res.status(400).send({ message: "Phone is required!" });
-    if(!data.preferences)
-        return res.status(400).send({ message: "Preferences are required!" });
 
     const user = await prisma.user.create({
         data: {
@@ -31,7 +29,7 @@ exports.create = async (req, res) => {
             password: hashPassword(data.password),
             phone: data.phone,
             address: data.address,
-            preferences: data.preferences,
+            preferenceId: data.preferenceId,
             card: data.card
         }
     });
