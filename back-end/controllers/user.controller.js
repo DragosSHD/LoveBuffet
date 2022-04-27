@@ -13,26 +13,26 @@ exports.create = async (req, res) => {
 
     const data = req.body;
 
-    if(!req.body.username)
+    if(!data.username)
         return res.status(400).send({ message: "Username is required!" });
-    if(!req.body.email)
+    if(!data.email)
         return res.status(400).send({ message: "Email is required!" });
-    if(!req.body.password)
+    if(!data.password)
         return res.status(400).send({ message: "Password is required!" });
-    if(!req.body.phone)
+    if(!data.phone)
         return res.status(400).send({ message: "Phone is required!" });
-    if(!req.body.preferences)
+    if(!data.preferences)
         return res.status(400).send({ message: "Preferences are required!" });
 
     const user = await prisma.user.create({
         data: {
-            username: req.body.username,
-            email: req.body.email,
-            password: hashPassword(req.body.password),
-            phone: req.body.phone,
-            address: req.body.address,
-            preferences: req.body.preferences,
-            card: req.body.card
+            username: data.username,
+            email: data.email,
+            password: hashPassword(data.password),
+            phone: data.phone,
+            address: data.address,
+            preferences: data.preferences,
+            card: data.card
         }
     });
 
@@ -81,7 +81,7 @@ exports.getOne = async (req, res) => {
 // Update user
 exports.update = async (req, res) => {
     const id = req.params.id;
-    const data = req.body;
+    const data = data;
     if(data.password) {
         data.password = hashPassword(data.password);
     }
@@ -122,3 +122,18 @@ exports.delete = async (req, res) => {
 
 
 
+
+// Create new user
+exports.authenticate = async (req, res) => {
+
+    const user = await prisma.user.findUnique({
+        where: {
+            username: req.body.username,
+            password: hashPassword(req.body.password)
+        },
+    }).catch((err) => {
+        res.status(500).send({ message: err});
+    });
+
+    res.json(user.username);
+}
