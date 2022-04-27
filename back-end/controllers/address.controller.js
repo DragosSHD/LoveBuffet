@@ -118,7 +118,5 @@ exports.delete = async(req,res) => {
     }
 }
 
-//Create new address
-ex
 
 
