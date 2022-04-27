@@ -18,7 +18,7 @@ model User {
   phone       String
   address     Address? @relation(fields: [addressId], references: [id])
   addressId   Int?
-  preferences Preferences @relation(fields: [preferenceID], references: [id])
+  preferences PreferenceList? @relation(fields: [preferenceId], references: [id])
   preferenceId Int?
   card        Card[]
 }
@@ -46,4 +46,5 @@ model PreferenceList {
   id Int @id @default(autoincrement())
   no_preferences Int
   time_spent_cooking Int
+  user User?
 }
