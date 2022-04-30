@@ -33,7 +33,7 @@ exports.create = async (req, res) => {
             card: data.card
         }
     }).catch(err => {
-        console.log(err);
+        console.log("ERROR: " + err.meta);
         res.status(500).send({ message: "Could not create account!" })
     });
     if(user)

@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "JohnDoe",
+      "email": "john.deo@email.com",
+      "phone": "0745426153"
+    },
+    {
+      "id": 2,
+      "username": "JoanaDoe",
+      "email": "joana.deo@email.com",
+      "phone": "0751148946"
+    },
+    {
+      "id": 3,
+      "username": "BobDoe",
+      "email": "bob.deo@email.com",
+      "phone": "0765589568"
+    },
+    {
+      "id": 4,
+      "username": "JudyDoe",
+      "email": "judy.deo@email.com",
+      "phone": "0749665328"
+    }
+  ]
+}

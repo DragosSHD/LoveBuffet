@@ -44,9 +44,10 @@ export default {
     }
   },
   methods: {
-    submitLogin() {
-      // TODO: Manage fields data.
+    async submitLogin() {
       alert("Email: " + this.email + "\nPass: " + this.password);
+      const users = await fetch('/api/users');
+      console.log(users);
     }
   }
 }

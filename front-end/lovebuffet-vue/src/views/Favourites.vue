@@ -8,8 +8,8 @@
       <main>
         <n-grid cols="3">
           <n-gi class="food-frame">
-            <div class="cover-img" style="background-image: url('./src/assets/img/burger-demo.jpg')">
-
+            <div class="cover-img">
+              <img src="src/assets/img/burger-demo.jpg" alt="cover-img">
             </div>
           </n-gi>
           <n-gi class="food-frame">
@@ -68,6 +68,10 @@ main {
 }
 .cover-img {
   width: 100%;
-  height: 100px;
+  height: 50%;
+  overflow: hidden;
+}
+.cover-img img {
+  object-fit: cover;
 }
 </style>
