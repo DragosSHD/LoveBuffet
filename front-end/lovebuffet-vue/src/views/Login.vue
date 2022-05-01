@@ -59,7 +59,6 @@ export default {
       const res = await fetch(`api/users?email=${this.email}`);
       const data = await res.json();
       const user = data[0];
-      console.log(user);
       if(!user || user.password !== this.password) {
         this.showError = true;
         this.errorText = "Oops! Your account email or password is incorrect.";
@@ -67,8 +66,15 @@ export default {
       if(user && user.password === this.password) {
        this.showError = false;
        this.showSuccess = true;
+       const fakeAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+       localStorage.jwtToken = fakeAccessToken;
+       await this.$router.push({ path: '/' });
       }
-
+    }
+  },
+  async beforeMount() {
+    if(localStorage.jwtToken) {
+      await this.$router.push({ path: '/'});
     }
   }
 }

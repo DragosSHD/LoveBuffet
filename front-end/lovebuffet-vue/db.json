@@ -35,6 +35,12 @@
       "email": "dragos.dobre@wbz.ro",
       "password": "ade",
       "id": 6
+    },
+    {
+      "username": "awd",
+      "email": "Test@test.test",
+      "password": "add",
+      "id": 7
     }
   ]
 }
