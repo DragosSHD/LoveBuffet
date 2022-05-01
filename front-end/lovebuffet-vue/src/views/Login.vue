@@ -20,34 +20,55 @@
           <input class="submit-btn" type="submit" value="Log In">
         </form>
         <p>Don't have an account yet? Register <router-link to="/register">here</router-link>.</p>
+        <div class="alert-container" v-if="showError">
+          <n-alert :title="errorText" type="error">
+          </n-alert>
+        </div>
+        <div class="alert-container" v-if="showSuccess">
+          <n-alert title="Logged in!" type="success">
+          </n-alert>
+        </div>
       </div>
     </div>
   </main>
 </template>
 
 <script>
-import { NIcon } from "naive-ui";
-import { LemonRegular, EnvelopeRegular, Lock } from "@vicons/fa";
+import {NIcon, NAlert} from "naive-ui";
+import {EnvelopeRegular, LemonRegular, Lock} from "@vicons/fa";
 import FormField from "../components/FormField.vue";
 
 
 export default {
   name: "Login",
   components: {
-    NIcon, LemonRegular, EnvelopeRegular, Lock, FormField
+    NIcon, LemonRegular, EnvelopeRegular, Lock, FormField, NAlert
   },
   data () {
     return {
       submit: false,
       email: "",
-      password: ""
+      password: "",
+      errorText: "An error occurred",
+      showError: false,
+      showSuccess: false
     }
   },
   methods: {
     async submitLogin() {
-      alert("Email: " + this.email + "\nPass: " + this.password);
-      const users = await fetch('/api/users');
-      console.log(users);
+      const res = await fetch(`api/users?email=${this.email}`);
+      const data = await res.json();
+      const user = data[0];
+      console.log(user);
+      if(!user || user.password !== this.password) {
+        this.showError = true;
+        this.errorText = "Oops! Your account email or password is incorrect.";
+      }
+      if(user && user.password === this.password) {
+       this.showError = false;
+       this.showSuccess = true;
+      }
+
     }
   }
 }
@@ -138,5 +159,8 @@ export default {
 .submit-btn:hover {
   color: #23b35d;
   transform: scale(0.95);
+}
+.alert-container {
+  margin: 0 20px;
 }
 </style>

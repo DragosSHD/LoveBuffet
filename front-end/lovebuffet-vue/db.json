@@ -23,6 +23,18 @@
       "username": "JudyDoe",
       "email": "judy.deo@email.com",
       "phone": "0749665328"
+    },
+    {
+      "username": "soulhunter",
+      "email": "iulian.munteanu@wbz.ro",
+      "password": "add",
+      "id": 5
+    },
+    {
+      "username": "Dragos",
+      "email": "dragos.dobre@wbz.ro",
+      "password": "ade",
+      "id": 6
     }
   ]
 }

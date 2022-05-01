@@ -58,13 +58,28 @@ export default {
       if(this.password !== this.confirmPassword) {
         alert("Password does not match!");
         this.confirmPassword = "";
-      } else {
-        alert("email: " + this.email + "\n" +
-            "username: " + this.username + "\n" +
-            "password: " + this.password + "\n" +
-            "confPass: " + this.confirmPassword);
       }
-
+      if(this.password === this.confirmPassword) {
+        this.createUser({
+          username: this.username,
+          email: this.email,
+          password: this.password
+        });
+      }
+    },
+    async createUser(data) {
+      const res = await fetch("api/users", {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      if(res.status === 201) {
+        await this.$router.push({ path: '/login' });
+      } else {
+        console.log(res);
+      }
     }
   }
 }
