@@ -4,6 +4,9 @@ html, body {
     height:100%;
     font-family: "Roboto", serif;
 }
+body {
+    overflow-x: hidden;
+}
 .center-layout {
     display: flex;
     align-items: center;

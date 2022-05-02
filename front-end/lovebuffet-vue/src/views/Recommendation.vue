@@ -83,7 +83,7 @@ export default {
       productName: "",
       productFullName: "",
       imgUrl: "",
-      caloriesCount: "XXX",
+      caloriesCount: "",
       description: "",
       fetchErr: false
     }

@@ -1,52 +1,28 @@
 {
   "users": [
     {
-      "id": 1,
-      "username": "JohnDoe",
-      "email": "john.deo@email.com",
-      "phone": "0745426153"
-    },
-    {
-      "id": 2,
-      "username": "JoanaDoe",
-      "email": "joana.deo@email.com",
-      "phone": "0751148946"
-    },
-    {
-      "id": 3,
-      "username": "BobDoe",
-      "email": "bob.deo@email.com",
-      "phone": "0765589568"
-    },
-    {
-      "id": 4,
-      "username": "JudyDoe",
-      "email": "judy.deo@email.com",
-      "phone": "0749665328"
-    },
-    {
-      "username": "soulhunter",
-      "email": "iulian.munteanu@wbz.ro",
-      "password": "add",
-      "id": 5
-    },
-    {
       "username": "Dragos",
       "email": "dragos.dobre@wbz.ro",
       "password": "ade",
-      "id": 6
+      "id": 1
     },
     {
       "username": "awd",
       "email": "Test@test.test",
       "password": "add",
-      "id": 7
+      "id": 2
     },
     {
       "username": "johndoe",
       "email": "john@doe.com",
       "password": "123",
-      "id": 8
+      "id": 3
+    },
+    {
+      "username": "Jon",
+      "email": "dragos.dobdre@wbz.ro",
+      "password": "add",
+      "id": 4
     }
   ],
   "foodApi": {
