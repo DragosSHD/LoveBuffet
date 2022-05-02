@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="center-layout">
+    <div id="central-view" class="center-layout">
       <div class="title-box">
         <h2>Log in</h2>
       </div>
@@ -28,6 +28,10 @@
           <n-alert title="Logged in!" type="success">
           </n-alert>
         </div>
+        <div class="alert-container" v-if="showInfo">
+          <n-alert title="You should Log In before using that page!" type="info">
+          </n-alert>
+        </div>
       </div>
     </div>
   </main>
@@ -51,7 +55,8 @@ export default {
       password: "",
       errorText: "An error occurred",
       showError: false,
-      showSuccess: false
+      showSuccess: false,
+      showInfo: false
     }
   },
   methods: {
@@ -60,21 +65,26 @@ export default {
       const data = await res.json();
       const user = data[0];
       if(!user || user.password !== this.password) {
+        this.showInfo = false;
         this.showError = true;
         this.errorText = "Oops! Your account email or password is incorrect.";
       }
       if(user && user.password === this.password) {
        this.showError = false;
+        this.showInfo = false;
        this.showSuccess = true;
        const fakeAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-       localStorage.jwtToken = fakeAccessToken;
+       localStorage.jwt = fakeAccessToken;
        await this.$router.push({ path: '/' });
       }
     }
   },
   async beforeMount() {
-    if(localStorage.jwtToken) {
+    if(localStorage.jwt) {
       await this.$router.push({ path: '/'});
+    }
+    if(this.$route.query.msg === "infoLog") {
+      this.showInfo = true;
     }
   }
 }
