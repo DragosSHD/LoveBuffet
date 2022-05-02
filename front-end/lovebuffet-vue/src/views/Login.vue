@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {NIcon, NAlert} from "naive-ui";
+import {NAlert, NIcon} from "naive-ui";
 import {EnvelopeRegular, LemonRegular, Lock} from "@vicons/fa";
 import FormField from "../components/FormField.vue";
 
@@ -73,15 +73,14 @@ export default {
        this.showError = false;
         this.showInfo = false;
        this.showSuccess = true;
-       const fakeAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-       localStorage.jwt = fakeAccessToken;
+        localStorage.jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
        await this.$router.push({ path: '/' });
       }
     }
   },
   async beforeMount() {
     if(localStorage.jwt) {
-      await this.$router.push({ path: '/'});
+      await this.$router.push({ path: '/recommendation'});
     }
     if(this.$route.query.msg === "infoLog") {
       this.showInfo = true;
@@ -125,22 +124,6 @@ export default {
   text-transform: uppercase;
   color: #23b35d;
 }
-.form-field {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #efefef;
-  padding: 1vh 0;
-  margin: 1vh 10vw;
-}
-.field-group {
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  text-align: left;
-  font-weight: bold;
-  color: #838383;
-}
 .field-group input {
   border: 0;
   background: transparent;
@@ -148,15 +131,6 @@ export default {
 }
 .form-field input:focus-visible {
   outline: none;
-}
-.field-icon {
-  display: inline-block;
-  margin-right: 50px;
-  border-radius: 50%;
-  background-color: #f5ced5;
-  font-size: 3em;
-  min-width: 80px;
-  min-height: 80px;
 }
 .field-icon > * {
   vertical-align: middle;
@@ -167,7 +141,7 @@ export default {
   font-weight: bold;
   font-size: 1.5em;
   padding: 0.5em 2em;
-  border: 0px;
+  border: 0;
   cursor: pointer;
   margin: 1.5em 0;
   transition: all ease 0.2s;

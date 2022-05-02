@@ -5,7 +5,7 @@ import History from "../views/History.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Preferences from "../views/Preferences.vue";
-
+import Recommendation from "../views/Recommendation.vue";
 
 
 const routes = [
@@ -39,6 +39,11 @@ const routes = [
         name: 'Register',
         component: Register
     },
+    {
+        path: '/recommendation',
+        name: 'Recommendation',
+        component: Recommendation
+    }
 ];
 
 export default createRouter({
