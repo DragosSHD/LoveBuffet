@@ -1,12 +1,26 @@
 const { PrismaClient } = require('@prisma/client');
+const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
+
+
+//For the JWT creation
+const dotenv = require('dotenv');
+dotenv.config();
+const tokenSecret=process.env.TOKEN_SECRET;
+
 
 const prisma = new PrismaClient;
 
 function hashPassword(password) {
     const SALT_WORK_FACTOR = 10;
-    const bcrypt = require("bcrypt");
     return bcrypt.hashSync(password, 8);
 }
+
+function generateAccessToken(username) {
+    return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+  }
+  
+
 
 // Create new user
 exports.create = async (req, res) => {
@@ -124,17 +138,40 @@ exports.delete = async (req, res) => {
 
 
 
-// Create new user
-exports.authenticate = async (req, res) => {
+// Check user authenticated
+exports.authenticate = async (req, response) => {
 
+    console.log(require('crypto').randomBytes(64).toString('hex'))
     const user = await prisma.user.findUnique({
         where: {
-            username: req.body.username,
-            password: hashPassword(req.body.password)
+            username: req.body.username
         },
     }).catch((err) => {
-        res.status(500).send({ message: err});
+        response.status(500).send({ message: err});
     });
 
-    res.json(user.username);
+    
+    if(!user){
+        console.log("Not found");
+        response.status(404).send({message:"User not registered!"})
+    }else
+       bcrypt.compare(req.body.password, user.password, function(err, res) {
+        if (err){
+            response.status(500).send({ message: err});
+        }
+        if (res){
+            //send JWT
+            const token = generateAccessToken({ username: req.body.username });
+            response.json(token);
+        } else {
+          // response is OutgoingMessage object that server response http request
+        response.json({success: false, message: 'passwords do not match'});
+        }
+    });
+}
+
+//Verify if the JWT is still valid
+
+exports.validJWT = async (req, response) => {
+
 }
