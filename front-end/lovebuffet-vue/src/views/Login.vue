@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="center-layout">
+    <div id="central-view" class="center-layout">
       <div class="title-box">
         <h2>Log in</h2>
       </div>
@@ -20,33 +20,70 @@
           <input class="submit-btn" type="submit" value="Log In">
         </form>
         <p>Don't have an account yet? Register <router-link to="/register">here</router-link>.</p>
+        <div class="alert-container" v-if="showError">
+          <n-alert :title="errorText" type="error">
+          </n-alert>
+        </div>
+        <div class="alert-container" v-if="showSuccess">
+          <n-alert title="Logged in!" type="success">
+          </n-alert>
+        </div>
+        <div class="alert-container" v-if="showInfo">
+          <n-alert title="You should Log In before using that page!" type="info">
+          </n-alert>
+        </div>
       </div>
     </div>
   </main>
 </template>
 
 <script>
-import { NIcon } from "naive-ui";
-import { LemonRegular, EnvelopeRegular, Lock } from "@vicons/fa";
+import {NAlert, NIcon} from "naive-ui";
+import {EnvelopeRegular, LemonRegular, Lock} from "@vicons/fa";
 import FormField from "../components/FormField.vue";
 
 
 export default {
   name: "Login",
   components: {
-    NIcon, LemonRegular, EnvelopeRegular, Lock, FormField
+    NIcon, LemonRegular, EnvelopeRegular, Lock, FormField, NAlert
   },
   data () {
     return {
       submit: false,
       email: "",
-      password: ""
+      password: "",
+      errorText: "An error occurred",
+      showError: false,
+      showSuccess: false,
+      showInfo: false
     }
   },
   methods: {
-    submitLogin() {
-      // TODO: Manage fields data.
-      alert("Email: " + this.email + "\nPass: " + this.password);
+    async submitLogin() {
+      const res = await fetch(`api/users?email=${this.email}`);
+      const data = await res.json();
+      const user = data[0];
+      if(!user || user.password !== this.password) {
+        this.showInfo = false;
+        this.showError = true;
+        this.errorText = "Oops! Your account email or password is incorrect.";
+      }
+      if(user && user.password === this.password) {
+       this.showError = false;
+        this.showInfo = false;
+       this.showSuccess = true;
+        localStorage.jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+       await this.$router.push({ path: '/' });
+      }
+    }
+  },
+  async beforeMount() {
+    if(localStorage.jwt) {
+      await this.$router.push({ path: '/recommendation'});
+    }
+    if(this.$route.query.msg === "infoLog") {
+      this.showInfo = true;
     }
   }
 }
@@ -87,22 +124,6 @@ export default {
   text-transform: uppercase;
   color: #23b35d;
 }
-.form-field {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #efefef;
-  padding: 1vh 0;
-  margin: 1vh 10vw;
-}
-.field-group {
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  text-align: left;
-  font-weight: bold;
-  color: #838383;
-}
 .field-group input {
   border: 0;
   background: transparent;
@@ -110,15 +131,6 @@ export default {
 }
 .form-field input:focus-visible {
   outline: none;
-}
-.field-icon {
-  display: inline-block;
-  margin-right: 50px;
-  border-radius: 50%;
-  background-color: #f5ced5;
-  font-size: 3em;
-  min-width: 80px;
-  min-height: 80px;
 }
 .field-icon > * {
   vertical-align: middle;
@@ -129,7 +141,7 @@ export default {
   font-weight: bold;
   font-size: 1.5em;
   padding: 0.5em 2em;
-  border: 0px;
+  border: 0;
   cursor: pointer;
   margin: 1.5em 0;
   transition: all ease 0.2s;
@@ -137,5 +149,8 @@ export default {
 .submit-btn:hover {
   color: #23b35d;
   transform: scale(0.95);
+}
+.alert-container {
+  margin: 0 20px;
 }
 </style>

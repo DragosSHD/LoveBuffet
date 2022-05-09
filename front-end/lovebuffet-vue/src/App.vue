@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <router-view></router-view>
+    <router-view></router-view>
   <n-config-provider :theme-overrides="themeOverridesFooter">
     <Footer />
   </n-config-provider>

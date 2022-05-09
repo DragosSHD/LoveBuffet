@@ -99,6 +99,11 @@ export default {
   components: {
     NGrid, NGi, NImage, NButton, AppleAlt, NIcon, DrumstickBite, NCard,
     LinkedinIn, Github, FacebookF, MemberCard
+  },
+  beforeMount() {
+    if(localStorage.jwt) {
+      this.$router.push({ path: "/recommendation" });
+    }
   }
 }
 </script>
@@ -179,8 +184,5 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.icon-btn {
-  padding: 0 1vw 0 0;
 }
 </style>

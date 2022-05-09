@@ -4,7 +4,12 @@
 
 <script>
 export default {
-  name: "Preferences"
+  name: "Preferences",
+  async beforeMount() {
+    if(!localStorage.jwt) {
+      await this.$router.push({ path: '/login', query: {msg: "infoLog"} });
+    }
+  }
 }
 </script>
 

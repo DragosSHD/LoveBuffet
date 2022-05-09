@@ -5,7 +5,12 @@
 <script>
 
 export default {
-  name: "History"
+  name: "History",
+  async beforeMount() {
+    if(!localStorage.jwt) {
+      await this.$router.push({ path: '/login', query: {msg: "infoLog"} });
+    }
+  }
 }
 </script>
 

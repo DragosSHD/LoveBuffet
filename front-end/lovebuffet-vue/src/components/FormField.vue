@@ -7,7 +7,7 @@
     </div>
     <span class="field-group">
               <label :for="name">{{ name }}</label>
-              <input :value="modelValue" :type="type" :name="name" :id="name" @input="$emit('update:modelValue', $event.target.value)" required>
+              <input :value="modelValue" :type="type" :name="name" :id="name" @input="$emit('update:modelValue', $event.target.value)" @blur="$emit('blur', $event.target.value)" required>
     </span>
   </div>
 </template>
@@ -52,7 +52,7 @@ export default {
   color: #838383;
 }
 .field-group input {
-  border: 0px;
+  border: 0;
   background: transparent;
   border-bottom: 3px solid #23b35d;
 }
