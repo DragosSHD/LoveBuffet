@@ -28,14 +28,14 @@ exports.create = async(req,res)=>{
             city: data.city,
             street: data.street,
             number: data.number,
-            user: data.user
+            user: data.user.id
         }
     }).catch(err => {
         console.log("ERROR: " + err.meta);
         res.status(500).send({ message: "Could not add address!" })
     });
     if(address)
-        res.json(address.user);
+        res.json(address);
 }
 
 // Get all addresses
@@ -45,11 +45,11 @@ exports.getAll = async (req,res) => {
     });
 
     const addresses = data.map(obj=>({
-        id: data.id,
-        country: data.country,
-        city: data.city,
-        street: data.street,
-        number: data.number
+        id: obj.id,
+        country: obj.country,
+        city: obj.city,
+        street: obj.street,
+        number: obj.number
     }));
     res.json(addresses);
 }

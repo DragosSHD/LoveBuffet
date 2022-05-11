@@ -38,7 +38,7 @@ model Address {
   country String
   city String
   street String
-  number String // facem numebr String???
+  number String 
   users User[]
 }
 

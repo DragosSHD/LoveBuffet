@@ -12,10 +12,7 @@ module.exports = app => {
 
     router.delete("/:id", address.delete);
 
-    //Validate address to verify if the jwt is still valid
-
-    router.post("/validJWT",address.validJWT);
-
     router.delete("/", (req, res) => {res.send("Route Not Handled!")});
     app.use("/api/address", router);
+
 };
