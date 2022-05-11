@@ -19,6 +19,9 @@ exports.create = async(req,res)=>{
     if(!data.number)
         return res.status(400).send({ message: "Number is required!" })
 
+    if(!data.user)
+        return res.status(400).send({ message: "User is required!" })
+    
     const address = await prisma.address.create({
         data: {
             country: data.country,
@@ -27,9 +30,12 @@ exports.create = async(req,res)=>{
             number: data.number,
             user: data.user
         }
+    }).catch(err => {
+        console.log("ERROR: " + err.meta);
+        res.status(500).send({ message: "Could not add address!" })
     });
-
-    res.json(address.country)
+    if(address)
+        res.json(address.user);
 }
 
 // Get all addresses
@@ -39,11 +45,11 @@ exports.getAll = async (req,res) => {
     });
 
     const addresses = data.map(obj=>({
-        id: obj.id,
-        country: obj.country,
-        city: obj.city,
-        street: obj.street,
-        number: obj.number
+        id: data.id,
+        country: data.country,
+        city: data.city,
+        street: data.street,
+        number: data.number
     }));
     res.json(addresses);
 }

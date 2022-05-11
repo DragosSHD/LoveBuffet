@@ -12,6 +12,8 @@ res.json({ message: "Welcome to LoveBuffet, where you will fall in love with our
 // ----------------------------- Routes -----------------------------
 require("./routes/product.routes")(app);
 require("./routes/user.routes")(app);
+require("./routes/address.routes")(app);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

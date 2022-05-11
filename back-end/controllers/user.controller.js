@@ -2,7 +2,6 @@ const { PrismaClient } = require('@prisma/client');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-
 //For the JWT creation
 const dotenv = require('dotenv');
 dotenv.config();
@@ -18,10 +17,8 @@ function hashPassword(password) {
 
 function generateAccessToken(username) {
     return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
-  }
+}
   
-
-
 // Create new user
 exports.create = async (req, res) => {
 

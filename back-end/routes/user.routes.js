@@ -14,7 +14,7 @@ module.exports = app => {
 
     router.post("/auth",user.authenticate);
 
-    //Validtae route to verify if the jwt is still valid
+    //Validate route to verify if the jwt is still valid
 
     router.post("/validJWT",user.validJWT);
 
