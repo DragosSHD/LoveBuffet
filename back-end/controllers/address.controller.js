@@ -19,17 +19,23 @@ exports.create = async(req,res)=>{
     if(!data.number)
         return res.status(400).send({ message: "Number is required!" })
 
+    if(!data.user)
+        return res.status(400).send({ message: "User is required!" })
+    
     const address = await prisma.address.create({
         data: {
             country: data.country,
             city: data.city,
             street: data.street,
             number: data.number,
-            user: data.user
+            user: data.user.id
         }
+    }).catch(err => {
+        console.log("ERROR: " + err.meta);
+        res.status(500).send({ message: "Could not add address!" })
     });
-
-    res.json(address.country)
+    if(address)
+        res.json(address);
 }
 
 // Get all addresses
