@@ -7,7 +7,7 @@
             <h1>Love<span style="color: #f5ced5">Buffet</span></h1>
             <h3>Easy, Fast &<br/> Delicious</h3>
             <p>Find Love in food with our<br/> easy to use webapp.</p>
-            <n-button id="start-btn" :round="true" type="info">
+            <n-button id="start-btn" :round="true" type="info" @click="$router.push({ path: '/login' })">
               Start
             </n-button>
           </div>
