@@ -41,6 +41,7 @@
 import {NAlert, NIcon} from "naive-ui";
 import {EnvelopeRegular, LemonRegular, Lock} from "@vicons/fa";
 import FormField from "../components/FormField.vue";
+import {fetcher} from "../utils/api";
 
 
 export default {
@@ -69,21 +70,29 @@ export default {
           this.errorText = "Oops! There's no account registered with this email address!";
       }
       if(data) {
-        //TODO: Manage authentication after finishing BE
+        const auth = await fetch(`${this.backend_url}api/auth`, {
+          headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password
+          }),
+          method: 'POST'
+        });
+        if(auth.status === 401) {
+            this.showInfo = false;
+            this.showError = true;
+            this.errorText = "Oops! Your account email or password is incorrect.";
+        }
+        if(auth.status === 200) {
+          const token = await auth.json();
+          this.showSuccess = true;
+          localStorage.jwt = token;
+          await this.$router.push({ path: '/' });
+        }
       }
-      // const user = data;
-      // if(!user || user.password !== this.password) {
-      //   this.showInfo = false;
-      //   this.showError = true;
-      //   this.errorText = "Oops! Your account email or password is incorrect.";
-      // }
-      // if(user && user.password === this.password) {
-      //  this.showError = false;
-      //   this.showInfo = false;
-      //  this.showSuccess = true;
-      //   localStorage.jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-      //  await this.$router.push({ path: '/' });
-      // }
     }
   },
   async beforeMount() {

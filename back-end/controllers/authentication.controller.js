@@ -16,18 +16,18 @@ const prisma = new PrismaClient;
 // Create new user
 exports.authenticate = async (req, res) => {
     // console.log(require('crypto').randomBytes(64).toString('hex'));
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
-    if(!username) {
-        res.status(400).send({ message: "Username is required!"});
+    if(!email) {
+        res.status(400).send({ message: "Email is required!"});
     }
     if(!password) {
         res.status(400).send({ message: "Password is required!"});
     }
-    if(username) {
+    if(email) {
         const user = await prisma.user.findUnique({
             where: {
-                username: req.body.username
+                email: email
             },
         }).catch((err) => {
             res.status(500).send({ message: err});
@@ -47,7 +47,7 @@ exports.authenticate = async (req, res) => {
                     res.json(token);
                 } else {
                     // response is OutgoingMessage object that server response http request
-                    res.json({success: false, message: 'passwords do not match'});
+                    res.status(401).json({success: false, message: 'passwords do not match'});
                 }
             });
         }
