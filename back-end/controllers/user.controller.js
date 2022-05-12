@@ -12,11 +12,11 @@ const prisma = new PrismaClient;
 
 function hashPassword(password) {
     const SALT_WORK_FACTOR = 10;
-    return bcrypt.hashSync(password, 8);
+    return bcrypt.hashSync(password, SALT_WORK_FACTOR);
 }
 
 function generateAccessToken(username) {
-    return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+    return jwt.sign(username, tokenSecret, { expiresIn: '1800s' });
 }
   
 // Create new user
@@ -165,7 +165,6 @@ exports.authenticate = async (req, res) => {
 }
 
 //Verify if the JWT is still valid
-
 exports.validJWT = async (req, res) => {
 
 }
