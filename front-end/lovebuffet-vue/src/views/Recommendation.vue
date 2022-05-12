@@ -28,7 +28,7 @@
     <div class="btn-area" v-if="!fetchErr">
       <n-grid x-gap="50" cols="3">
         <n-gi>
-          <button id="discard" class="action-btn">
+          <button id="discard" class="action-btn" @click="getRandomCuisine">
             <ban size="20" color="#ea3c5d"/>
           </button>
         </n-gi>
@@ -85,7 +85,8 @@ export default {
       imgUrl: "",
       caloriesCount: "",
       description: "",
-      fetchErr: false
+      fetchErr: false,
+      cuisine: "american"
     }
   },
   methods: {
@@ -93,38 +94,51 @@ export default {
     async getFoodApiKey() {
       const data = await fetcher(`api/foodApi`);
       return data ? data.key : "err";
+    },
+    getRandomCuisine() {
+      const choices = ["american", "african", "british", "cajun",
+                      "french", "german", "greek", "italian", "irish",
+                      "jewish"];
+      this.cuisine = choices[Math.floor(Math.random() * 10)];
+      this.productName = "";
+      this.imgUrl = "";
+      this.description = "";
+      this.productFullName = "";
+      this.caloriesCount = "";
+      this.changeProduct();
+    },
+    async changeProduct() {
+      const apiKey = await this.getFoodApiKey();
+      const data = {};
+      const DESC_LIMIT = 350;
+      const TITLE_LIMIT = 15;
+
+      if(apiKey !== "err") {
+        data.overview = await fetcher(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&minCalories=5&number=1&cuisine=${this.cuisine}`);
+        data.details = await fetcher(`https://api.spoonacular.com/recipes/${data.overview.results[0].id}/summary?apiKey=${apiKey}`);
+      }
+      if(data.overview && data.details) {
+        this.fetchErr = false;
+        const recipe = data.overview.results[0];
+        this.productFullName = recipe.title;
+        this.caloriesCount = recipe.nutrition.nutrients[0].amount;
+        this.imgUrl = recipe.image;
+        this.productName = recipe.title.slice(0, TITLE_LIMIT);
+        if(recipe.title.length > TITLE_LIMIT) {
+          this.productName += "...";
+        }
+        this.description = data.details.summary.slice(0, DESC_LIMIT);
+        if(data.details.summary.length > DESC_LIMIT) {
+          this.description += "...";
+        }
+      }
+      if(apiKey === "err" || !data) {
+        this.fetchErr = true;
+      }
     }
   },
   async mounted() {
-    const apiKey = await this.getFoodApiKey();
-    const data = {};
-    const DESC_LIMIT = 350;
-    const TITLE_LIMIT = 15;
-
-    if(apiKey !== "err") {
-      data.overview = await fetcher(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&minCalories=5&number=1&cuisine=american`);
-      data.details = await fetcher(`https://api.spoonacular.com/recipes/${data.overview.results[0].id}/summary?apiKey=${apiKey}`);
-    }
-    if(data.overview && data.details) {
-      this.fetchErr = false;
-      const recipe = data.overview.results[0];
-      this.productFullName = recipe.title;
-      this.caloriesCount = recipe.nutrition.nutrients[0].amount;
-      this.imgUrl = recipe.image;
-      this.productName = recipe.title.slice(0, TITLE_LIMIT);
-      if(recipe.title.length > TITLE_LIMIT) {
-        this.productName += "...";
-      }
-      this.description = data.details.summary.slice(0, DESC_LIMIT);
-      if(data.details.summary.length > DESC_LIMIT) {
-        this.description += "...";
-      }
-    }
-    if(apiKey === "err" || !data) {
-      this.fetchErr = true;
-    }
-
-
+    this.changeProduct();
   }
 }
 </script>

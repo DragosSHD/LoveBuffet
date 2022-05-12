@@ -47,6 +47,24 @@
       "email": "john@doe.com",
       "password": "123",
       "id": 8
+    },
+    {
+      "username": "JohnDoedawd",
+      "email": "iulian.munteadawdnu@wbz.ro",
+      "password": "asd",
+      "id": 9
+    },
+    {
+      "username": "soulhunterda",
+      "email": "iulian.munteanu@wbz.dawro",
+      "password": "awdaw",
+      "id": 10
+    },
+    {
+      "username": "dragos_dobre",
+      "email": "dragos@email.com",
+      "password": "add",
+      "id": 11
     }
   ],
   "foodApi": {

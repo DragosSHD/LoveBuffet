@@ -33,8 +33,6 @@ exports.create = async (req, res) => {
         return res.status(400).send({ message: "Email is required!" });
     if(!data.password)
         return res.status(400).send({ message: "Password is required!" });
-    if(!data.phone)
-        return res.status(400).send({ message: "Phone is required!" });
 
     const user = await prisma.user.create({
         data: {
@@ -47,7 +45,7 @@ exports.create = async (req, res) => {
             card: data.card
         }
     }).catch(err => {
-        console.log("ERROR: " + err.meta);
+        console.log("ERROR: " + err);
         res.status(500).send({ message: "Could not create account!" })
     });
     if(user)
@@ -57,7 +55,7 @@ exports.create = async (req, res) => {
 // Get all users
 exports.getAll = async (req, res) => {
     const data = await prisma.user.findMany().catch(err => {
-        res.status(500).send({ message: "Some error occurred while retrieving Users." })
+        res.status(500).send({message: "Some error occurred while retrieving Users."})
     });
     const users = data.map(obj => ({
         id: obj.id,
@@ -92,6 +90,31 @@ exports.getOne = async (req, res) => {
         res.json(user);
     }
 }
+
+//TODO:Check if user with Username or Email exists
+
+// Get user based on username
+exports.getByQuery = async (req, res) => {
+    const email = req.query.email;
+    if(!email)
+        res.status(400).send({ message: "Email is required!" });
+    const data = await prisma.user.findUnique({
+        where: {
+            email: parseInt(email),
+        },
+    }).catch((err) => {
+        res.status(500).send({ message: err});
+    });
+    if(!data)
+        res.status(404).send({ message: "User with email:" + email + " not found."});
+    if(data) {
+        const user = {
+            id: data.id
+        }
+        res.json(user);
+    }
+}
+
 
 // Update user
 exports.update = async (req, res) => {

@@ -10,6 +10,8 @@ module.exports = app => {
 
     router.put("/:id", user.update);
 
+    router.get("/find", user.getByQuery);
+
     router.delete("/:id", user.delete);
 
     router.post("/auth",user.authenticate);
