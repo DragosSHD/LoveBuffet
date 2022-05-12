@@ -4,7 +4,7 @@ module.exports = app => {
 
     router.post("/", user.create);
 
-    router.get("/", user.getAll);
+    router.get("/", user.getUsers);
 
     router.get("/:id", user.getOne);
 

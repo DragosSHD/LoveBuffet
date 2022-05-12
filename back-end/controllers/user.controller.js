@@ -46,21 +46,54 @@ exports.create = async (req, res) => {
         res.status(500).send({ message: "Could not create account!" })
     });
     if(user)
-        res.json(user.username);
+        res.status(201).json(user.username);
 }
 
-// Get all users
-exports.getAll = async (req, res) => {
-    const data = await prisma.user.findMany().catch(() => {
-        res.status(500).send({message: "Some error occurred while retrieving Users."})
-    });
-    const users = data.map(obj => ({
-        id: obj.id,
-        username: obj.username,
-        email: obj.email,
-        phone: obj.phone
-    }));
-    res.json(users);
+// Get users
+exports.getUsers = async (req, res) => {
+
+    if(req.query.email) {
+        const data = await prisma.user.findUnique({
+            where: {
+                email: req.query.email,
+            },
+        }).catch((err) => {
+            res.status(500).send({ message: err});
+        });
+        if(data) {
+           res.status(200).json(data.id);
+        }
+        if(!data) {
+            res.status(200).json(null);
+        }
+    }
+    if(req.query.username) {
+        const data = await prisma.user.findUnique({
+            where: {
+                username: req.query.username,
+            },
+        }).catch((err) => {
+            res.status(500).send({ message: err});
+        });
+        if(data) {
+            res.status(200).json(data.id);
+        }
+        if(!data) {
+            res.status(200).json(null);
+        }
+    }
+    if(!req.query.username && !req.query.email) {
+        const data = await prisma.user.findMany().catch(() => {
+            res.status(500).send({message: "Some error occurred while retrieving Users."})
+        });
+        const users = data.map(obj => ({
+            id: obj.id,
+            username: obj.username,
+            email: obj.email,
+            phone: obj.phone
+        }));
+        res.json(users);
+    }
 }
 
 // Get user based on id

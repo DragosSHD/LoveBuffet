@@ -101,7 +101,7 @@ export default {
     },
     async createUser(data) {
       if(await this.uniqueCredentials(data)) {
-        const res = await fetch("api/users", {
+        const res = await fetch(`${this.backend_url}api/users`, {
           method: 'POST',
           headers: {
             'Content-type': 'application/json'
@@ -116,25 +116,25 @@ export default {
       }
     },
     async checkUsernameExists() {
-      const userFound = await fetcher(`api/users?username=${this.username}`);
-      if(userFound[0]) {
+      const userFound = await fetcher(`${this.backend_url}api/users?username=${this.username}`);
+      if(userFound) {
         this.userErr = true;
       }
     },
     async checkEmailExists() {
-      const emailFound = await fetcher(`api/users?email=${this.email}`);
-      if(emailFound[0]) {
+      const emailFound = await fetcher(`${this.backend_url}api/users?email=${this.email}`);
+      if(emailFound) {
         this.emailErr = true;
       }
     },
     async uniqueCredentials(data) {
-      const userFound = await fetcher(`api/users?username=${data.username}`);
-      const emailFound = await fetcher(`api/users?email=${data.email}`);
-      if(userFound[0]) {
+      const userFound = await fetcher(`${this.backend_url}api/users?username=${data.username}`);
+      const emailFound = await fetcher(`${this.backend_url}api/users?email=${data.email}`);
+      if(userFound) {
         this.userErr = true;
         return false;
       }
-      if(emailFound[0]) {
+      if(emailFound) {
         this.emailErr = true;
         return false;
       }

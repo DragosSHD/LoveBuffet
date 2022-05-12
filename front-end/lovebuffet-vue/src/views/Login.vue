@@ -61,21 +61,29 @@ export default {
   },
   methods: {
     async submitLogin() {
-      const res = await fetch(`api/users?email=${this.email}`);
+      const res = await fetch(`${this.backend_url}api/users?email=${this.email}`);
       const data = await res.json();
-      const user = data[0];
-      if(!user || user.password !== this.password) {
-        this.showInfo = false;
-        this.showError = true;
-        this.errorText = "Oops! Your account email or password is incorrect.";
+      if(!data) {
+          this.showInfo = false;
+          this.showError = true;
+          this.errorText = "Oops! There's no account registered with this email address!";
       }
-      if(user && user.password === this.password) {
-       this.showError = false;
-        this.showInfo = false;
-       this.showSuccess = true;
-        localStorage.jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-       await this.$router.push({ path: '/' });
+      if(data) {
+
       }
+      // const user = data;
+      // if(!user || user.password !== this.password) {
+      //   this.showInfo = false;
+      //   this.showError = true;
+      //   this.errorText = "Oops! Your account email or password is incorrect.";
+      // }
+      // if(user && user.password === this.password) {
+      //  this.showError = false;
+      //   this.showInfo = false;
+      //  this.showSuccess = true;
+      //   localStorage.jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+      //  await this.$router.push({ path: '/' });
+      // }
     }
   },
   async beforeMount() {
