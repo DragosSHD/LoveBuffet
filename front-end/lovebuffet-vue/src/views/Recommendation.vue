@@ -92,7 +92,7 @@ export default {
   methods: {
     // TODO: Move in BE
     async getFoodApiKey() {
-      const data = await fetcher(`api/foodApi`);
+      const data = await fetcher(`${this.backend_url}api/foodApi`);
       return data ? data.key : "err";
     },
     getRandomCuisine() {
