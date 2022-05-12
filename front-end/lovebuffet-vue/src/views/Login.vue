@@ -69,7 +69,7 @@ export default {
           this.errorText = "Oops! There's no account registered with this email address!";
       }
       if(data) {
-
+        //TODO: Manage authentication after finishing BE
       }
       // const user = data;
       // if(!user || user.password !== this.password) {
