@@ -88,35 +88,11 @@ exports.getOne = async (req, res) => {
     }
 }
 
-//TODO:Check if user with Username or Email exists
-
-// Get user based on username
-exports.getByQuery = async (req, res) => {
-    const email = req.query.email;
-    if(!email)
-        res.status(400).send({ message: "Email is required!" });
-    const data = await prisma.user.findUnique({
-        where: {
-            email: parseInt(email),
-        },
-    }).catch((err) => {
-        res.status(500).send({ message: err});
-    });
-    if(!data)
-        res.status(404).send({ message: "User with email:" + email + " not found."});
-    if(data) {
-        const user = {
-            id: data.id
-        }
-        res.json(user);
-    }
-}
-
 
 // Update user
 exports.update = async (req, res) => {
     const id = req.params.id;
-    const data = data;
+    const data = req.body;
     if(data.password) {
         data.password = hashPassword(data.password);
     }
