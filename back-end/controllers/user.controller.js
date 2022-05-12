@@ -51,7 +51,7 @@ exports.create = async (req, res) => {
 
 // Get all users
 exports.getAll = async (req, res) => {
-    const data = await prisma.user.findMany().catch(err => {
+    const data = await prisma.user.findMany().catch(() => {
         res.status(500).send({message: "Some error occurred while retrieving Users."})
     });
     const users = data.map(obj => ({
@@ -141,31 +141,31 @@ exports.authenticate = async (req, res) => {
             username: req.body.username
         },
     }).catch((err) => {
-        response.status(500).send({ message: err});
+        res.status(500).send({ message: err});
     });
 
     
     if(!user){
         console.log("Not found");
-        response.status(404).send({message:"User not registered!"})
+        res.status(404).send({message:"User not registered!"})
     }else
        bcrypt.compare(req.body.password, user.password, function(err, res) {
         if (err){
-            response.status(500).send({ message: err});
+            res.status(500).send({ message: err});
         }
         if (res){
             //send JWT
             const token = generateAccessToken({ username: req.body.username });
-            response.json(token);
+            res.json(token);
         } else {
           // response is OutgoingMessage object that server response http request
-        response.json({success: false, message: 'passwords do not match'});
+            res.json({success: false, message: 'passwords do not match'});
         }
     });
 }
 
 //Verify if the JWT is still valid
 
-exports.validJWT = async (req, response) => {
+exports.validJWT = async (req, res) => {
 
 }
