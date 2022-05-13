@@ -48,3 +48,10 @@ model PreferenceList {
   time_spent_cooking Int
   user User?
 }
+
+model Recipe {
+  id Int @id @default(autoincreemnt())
+  api_id Int
+  title String
+  image String
+}
