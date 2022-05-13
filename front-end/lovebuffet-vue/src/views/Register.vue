@@ -147,7 +147,8 @@ export default {
 <style scoped>
 .center-layout {
   min-height: 80vh;
-  background: linear-gradient(90deg, #ea3c5d 19%, rgba(166,227,191,1) 100%, rgba(255,255,255,1) 100%);
+  background: rgb(234,60,93);
+  background: linear-gradient(129deg, rgba(234,60,93,0.700717787114846) 0%, rgba(35,179,93,0) 100%);
 }
 .title-box {
   width: 100%;
