@@ -142,7 +142,7 @@ export default {
       //TODO: Redirect to recipe
     },
     async addToHistory(api_id, title, image) {
-      const recipe = await fetcher(`${this.backend_url}api/recipes`, {
+      fetcher(`${this.backend_url}api/recipes`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
@@ -152,16 +152,17 @@ export default {
           title: title,
           image: image
         })
-      });
-      const data = await fetcher(`${this.backend_url}api/history/add`, {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          "userToken": localStorage.jwt,
-          "recipeId": recipe.id
-        })
+      }).then(async recipe => {
+        const data = await fetcher(`${this.backend_url}api/history/add`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            "userToken": localStorage.jwt,
+            "recipeId": recipe.id
+          })
+        });
       });
     }
   },

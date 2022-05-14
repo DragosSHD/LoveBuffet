@@ -9,10 +9,10 @@
       <n-grid cols="3">
         <n-gi class="food-frame" v-for="product in products">
           <div class="cover-img">
-            <img src="https://spoonacular.com/recipeImages/715594-312x231.jpg" alt="cover-img">
+            <img :src="product.image" alt="cover-img">
           </div>
           <div class="product-title">
-            <h3>Beef Burger</h3>
+            <h3>{{ product.title }}</h3>
           </div>
           <div class="tag-section">
             <n-tag type="success" v-if="true">
@@ -33,6 +33,7 @@
 
 <script>
 import { NGrid, NGi, NImage, NTag } from "naive-ui"
+import {fetcher} from "../utils/api";
 
 export default {
   name: "History",
@@ -41,13 +42,26 @@ export default {
   },
   data() {
     return {
-      products: [1, 2, 3, 4, 5],
+      products: [],
     }
   },
   async beforeMount() {
     if(!localStorage.jwt) {
       await this.$router.push({ path: '/login', query: {msg: "infoLog"} });
     }
+  },
+  async mounted() {
+    const user = await fetcher(`${this.backend_url}api/auth/checkJWT`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        token: localStorage.jwt
+      })
+    });
+    const history = await fetcher(`${this.backend_url}api/history/${user.id}`);
+    this.products = history;
   }
 }
 </script>

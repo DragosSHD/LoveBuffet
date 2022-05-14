@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const prisma = new PrismaClient;
 
+//TODO: If recipe is already in history, just update the dateTime
 exports.addOne = async (req, res) => {
     const userToken = req.body.userToken;
     const recipeId = parseInt(req.body.recipeId);
@@ -40,12 +41,9 @@ exports.addOne = async (req, res) => {
             if(!user) {
                 res.status(404).send({ message: "User not found!"});
             }
-            const recipe = await prisma.user.findUnique({
+            const recipe = await prisma.recipe.findUnique({
                 where: {
                     id: recipeId
-                },
-                include: {
-                    history: true
                 }
             }).catch(err => {
                 console.log(err);
@@ -54,19 +52,30 @@ exports.addOne = async (req, res) => {
                 res.status(404).send({ message: "Recipe not found!"});
             }
             if(user && recipe) {
-                const recipeHistory = await prisma.recipesOnHistory.create({
-                    data: {
+                const foundHistory = await prisma.recipesOnHistory.findMany({
+                    where: {
                         recipeId: recipe.id,
                         historyId: user.history.id
                     }
-                }).catch(err => {
-                    console.log(err);
                 });
-                if(!recipeHistory) {
-                    res.status(500).send({ message: "Error while adding to history!"});
+                if(!foundHistory.length) {
+                    const recipeHistory = await prisma.recipesOnHistory.create({
+                        data: {
+                            recipeId: recipe.id,
+                            historyId: user.history.id
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                    if(!recipeHistory) {
+                        res.status(500).send({ message: "Error while adding to history!"});
+                    }
+                    if(recipeHistory) {
+                        res.status(201).json(recipeHistory);
+                    }
                 }
-                if(recipeHistory) {
-                    res.status(200).json(recipeHistory);
+                if(foundHistory.length) {
+                    res.status(200).json(foundHistory);
                 }
             }
         }
@@ -100,6 +109,9 @@ exports.getForUser = async (req, res) => {
         const recipeHistory = await prisma.recipesOnHistory.findMany({
             where: {
                 historyId: user.history.id
+            },
+            include: {
+                recipe: true
             }
         }).catch(err => {
             console.log(err);
@@ -108,7 +120,9 @@ exports.getForUser = async (req, res) => {
             res.status(404).send({ message: "History is empty!"});
         }
         if(recipeHistory) {
-            res.status(200).json(recipeHistory);
+            res.status(200).json(recipeHistory.map(obj => {
+                return obj.recipe;
+            }));
         }
     }
 

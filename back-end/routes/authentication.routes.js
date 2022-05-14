@@ -4,7 +4,7 @@ module.exports = app => {
 
     router.post("/", auth.authenticate);
 
-    router.get("/checkJWT", auth.validJWT);
+    router.post("/checkJWT", auth.validJWT);
 
     app.use("/api/auth", router);
 };
