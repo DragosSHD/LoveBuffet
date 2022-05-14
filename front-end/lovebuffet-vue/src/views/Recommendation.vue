@@ -285,7 +285,7 @@ h2 {
   width: 500px;
   height: 500px;
   top: 20vh;
-  right: -2vw;
+  right: 3vw;
 }
 #bl3 {
   width: 500px;
