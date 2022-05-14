@@ -3,8 +3,12 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient;
 
 exports.addOne = async (req, res) => {
-    const userId = parseInt(req.query.userId);
-    const recipeId = parseInt(req.query.recipeId);
+    const userToken = parseInt(req.body.userId);
+    const recipeId = parseInt(req.body.recipeId);
+
+
+
+    const userId = 1;
 
     if(!recipeId) {
         res.status(400).send({ message: "Recipe ID is required!"});

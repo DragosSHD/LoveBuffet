@@ -7,8 +7,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 const tokenSecret=process.env.TOKEN_SECRET;
 
-function generateAccessToken(username) {
-    return jwt.sign(username, tokenSecret);
+function generateAccessToken(userId) {
+    console.log(userId)
+    if(userId)
+        return jwt.sign({id: userId}, tokenSecret);
 }
 
 const prisma = new PrismaClient;
@@ -43,7 +45,7 @@ exports.authenticate = async (req, res) => {
                 }
                 if (response){
                     //send JWT
-                    const token = generateAccessToken({ username: req.body.username });
+                    const token = generateAccessToken(user.id);
                     res.json(token);
                 } else {
                     // response is OutgoingMessage object that server response http request
@@ -68,7 +70,7 @@ exports.validJWT = async (req, res) => {
             res.status(401).send({ message: "Invalid token!" });
         }
         if(decoded) {
-            res.status(200).send({ message: "Valid token" });
+            res.status(200).json(decoded);
         }
     }
 }

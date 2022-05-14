@@ -38,7 +38,7 @@
           </button>
         </n-gi>
         <n-gi>
-          <button id="recipe" class="action-btn">
+          <button id="recipe" class="action-btn" @click="viewProduct">
             <check size="20" color="#23b35d"/>
           </button>
         </n-gi>
@@ -80,6 +80,7 @@ export default {
   },
   data () {
     return {
+      productId: "",
       productName: "",
       productFullName: "",
       imgUrl: "",
@@ -90,7 +91,6 @@ export default {
     }
   },
   methods: {
-    // TODO: Move in BE
     async getFoodApiKey() {
       const data = await fetcher(`${this.backend_url}api/foodApi`);
       return data ? data.key : "err";
@@ -120,6 +120,7 @@ export default {
       if(data.overview && data.details) {
         this.fetchErr = false;
         const recipe = data.overview.results[0];
+        this.productId = recipe.id;
         this.productFullName = recipe.title;
         this.caloriesCount = recipe.nutrition.nutrients[0].amount;
         this.imgUrl = recipe.image;
@@ -135,10 +136,28 @@ export default {
       if(apiKey === "err" || !data) {
         this.fetchErr = true;
       }
+    },
+    async viewProduct() {
+      await this.addToHistory(this.productId, this.productName, this.imgUrl);
+    },
+    async addToHistory(api_id, title, image) {
+      const res = await fetch(`${this.backend_url}api/recipes`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          api_id: api_id,
+          title: title,
+          image: image
+        })
+      });
+      const data = await res.json();
+      // TODO: Add to history after fixing the BE
     }
   },
   async mounted() {
-    this.changeProduct();
+    await this.changeProduct();
   }
 }
 </script>

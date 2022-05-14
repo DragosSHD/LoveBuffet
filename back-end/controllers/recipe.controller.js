@@ -15,6 +15,7 @@ exports.create = async (req, res) => {
     if(!data.image) {
         res.status(400).send({ message: "Product image url is required!" });
     }
+    data.api_id = data.api_id.toString();
     if(data.api_id && data.title && data.image) {
         const recipe = await prisma.recipe.create({
             data: data
