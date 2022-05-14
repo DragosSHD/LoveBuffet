@@ -75,6 +75,15 @@ exports.addOne = async (req, res) => {
                     }
                 }
                 if(foundHistory.length) {
+                    const updatedHistory = await prisma.recipesOnHistory.updateMany({
+                        where: {
+                            recipeId: recipe.id,
+                            historyId: user.history.id
+                        },
+                        data: {
+                            assignedAt: new Date()
+                        }
+                    })
                     res.status(200).json(foundHistory);
                 }
             }
@@ -112,6 +121,9 @@ exports.getForUser = async (req, res) => {
             },
             include: {
                 recipe: true
+            },
+            orderBy: {
+                assignedAt: 'desc'
             }
         }).catch(err => {
             console.log(err);

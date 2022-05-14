@@ -23,7 +23,7 @@
             </n-tag>
           </div>
           <div class="date-added">
-            <p>23/03/2022</p>
+            <p>{{ getFormattedDate(product.date) }}</p>
           </div>
         </n-gi>
       </n-grid>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { NGrid, NGi, NImage, NTag } from "naive-ui"
+import {NGi, NGrid, NImage, NTag} from "naive-ui"
 import {fetcher} from "../utils/api";
 
 export default {
@@ -62,6 +62,16 @@ export default {
     });
     const history = await fetcher(`${this.backend_url}api/history/${user.id}`);
     this.products = history;
+  },
+  methods: {
+    getFormattedDate(date) {
+      const localDate = new Date(date);
+      return localDate.getDate() + '/'
+          + (localDate.getMonth() + 1) + '/'
+          + localDate.getFullYear() + " ("
+          + localDate.getHours() + ":"
+          + (localDate.getMinutes()<10?'0':'') + localDate.getMinutes() + ")";
+    }
   }
 }
 </script>
