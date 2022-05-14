@@ -6,6 +6,7 @@ import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Preferences from "../views/Preferences.vue";
 import Recommendation from "../views/Recommendation.vue";
+import Account from "../views/Account.vue";
 
 
 const routes = [
@@ -43,6 +44,11 @@ const routes = [
         path: '/recommendation',
         name: 'Recommendation',
         component: Recommendation
+    },
+    {
+        path: '/account',
+        name: 'Account',
+        component: Account
     }
 ];
 

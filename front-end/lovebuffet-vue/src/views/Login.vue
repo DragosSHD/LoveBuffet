@@ -97,7 +97,7 @@ export default {
   },
   async beforeMount() {
     if(localStorage.jwt) {
-      await this.$router.push({ path: '/recommendation'});
+      await this.$router.push({ path: '/account'});
     }
     if(this.$route.query.msg === "infoLog") {
       this.showInfo = true;
