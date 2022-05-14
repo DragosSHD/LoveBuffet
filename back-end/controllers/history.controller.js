@@ -1,62 +1,73 @@
 const { PrismaClient } = require('@prisma/client');
+const jwt = require("jsonwebtoken");
 
+const dotenv = require('dotenv');
+dotenv.config();
 const prisma = new PrismaClient;
 
 exports.addOne = async (req, res) => {
-    const userToken = parseInt(req.body.userId);
+    const userToken = req.body.userToken;
     const recipeId = parseInt(req.body.recipeId);
 
-
-
-    const userId = 1;
-
-    if(!recipeId) {
-        res.status(400).send({ message: "Recipe ID is required!"});
+    let decoded = "";
+    try {
+        decoded = jwt.verify(userToken, process.env.TOKEN_SECRET);
+    } catch (err) {
+        console.log(err);
+        res.status(401).send({ message: "Invalid token!" });
     }
-    if(!userId) {
-        res.status(400).send({ message: "User ID is required!"});
-    }
-    if(userId && recipeId) {
-        const user = await prisma.user.findUnique({
-            where: {
-                id: userId
-            },
-            include: {
-                history: true
-            }
-        }).catch(err => {
-            console.log(err);
-        });
-        if(!user) {
-            res.status(404).send({ message: "User not found!"});
+
+    const userId = decoded.id;
+
+    if(!res.headersSent) {
+        if(!recipeId) {
+            res.status(400).send({ message: "Recipe ID is required!"});
         }
-        const recipe = await prisma.user.findUnique({
-            where: {
-                id: recipeId
-            },
-            include: {
-                history: true
-            }
-        }).catch(err => {
-            console.log(err);
-        });
-        if(!recipe) {
-            res.status(404).send({ message: "Recipe not found!"});
+        if(!userId) {
+            res.status(400).send({ message: "User ID is required!"});
         }
-        if(user && recipe) {
-            const recipeHistory = await prisma.recipesOnHistory.create({
-                data: {
-                    recipeId: recipe.id,
-                    historyId: user.history.id
+        if(userId && recipeId) {
+            const user = await prisma.user.findUnique({
+                where: {
+                    id: userId
+                },
+                include: {
+                    history: true
                 }
             }).catch(err => {
                 console.log(err);
             });
-            if(!recipeHistory) {
-                res.status(500).send({ message: "Error while adding to history!"});
+            if(!user) {
+                res.status(404).send({ message: "User not found!"});
             }
-            if(recipeHistory) {
-                res.status(200).json(recipeHistory);
+            const recipe = await prisma.user.findUnique({
+                where: {
+                    id: recipeId
+                },
+                include: {
+                    history: true
+                }
+            }).catch(err => {
+                console.log(err);
+            });
+            if(!recipe) {
+                res.status(404).send({ message: "Recipe not found!"});
+            }
+            if(user && recipe) {
+                const recipeHistory = await prisma.recipesOnHistory.create({
+                    data: {
+                        recipeId: recipe.id,
+                        historyId: user.history.id
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+                if(!recipeHistory) {
+                    res.status(500).send({ message: "Error while adding to history!"});
+                }
+                if(recipeHistory) {
+                    res.status(200).json(recipeHistory);
+                }
             }
         }
     }
