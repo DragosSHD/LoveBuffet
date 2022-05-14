@@ -17,14 +17,24 @@ exports.create = async (req, res) => {
     }
     data.api_id = data.api_id.toString();
     if(data.api_id && data.title && data.image) {
-        const recipe = await prisma.recipe.create({
-            data: data
-        }).catch(err => {
-            console.log("ERROR: " + err);
-            res.status(500).send({ message: "Could not create recipe!" })
+        const foundRecipe = await prisma.recipe.findUnique({
+            where: {
+                api_id: data.api_id
+            }
         });
-        if(recipe) {
-            res.status(201).json(recipe);
+        if(foundRecipe) {
+            res.status(200).json(foundRecipe);
+        }
+        if(!foundRecipe) {
+            const recipe = await prisma.recipe.create({
+                data: data
+            }).catch(err => {
+                console.log("ERROR: " + err);
+                res.status(500).send({ message: "Could not create recipe!" })
+            });
+            if(recipe) {
+                res.status(201).json(recipe);
+            }
         }
     }
 

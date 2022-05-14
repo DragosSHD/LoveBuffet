@@ -141,7 +141,7 @@ export default {
       await this.addToHistory(this.productId, this.productName, this.imgUrl);
     },
     async addToHistory(api_id, title, image) {
-      const res = await fetch(`${this.backend_url}api/recipes`, {
+      const recipe = await fetcher(`${this.backend_url}api/recipes`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
@@ -152,8 +152,7 @@ export default {
           image: image
         })
       });
-      const data = await res.json();
-      // TODO: Add to history after fixing the BE
+      console.log(recipe);
     }
   },
   async mounted() {
