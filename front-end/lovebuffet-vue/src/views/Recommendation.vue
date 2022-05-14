@@ -139,6 +139,7 @@ export default {
     },
     async viewProduct() {
       await this.addToHistory(this.productId, this.productName, this.imgUrl);
+      //TODO: Redirect to recipe
     },
     async addToHistory(api_id, title, image) {
       const recipe = await fetcher(`${this.backend_url}api/recipes`, {
@@ -152,7 +153,16 @@ export default {
           image: image
         })
       });
-      console.log(recipe);
+      const data = await fetcher(`${this.backend_url}api/history/add`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          "userToken": localStorage.jwt,
+          "recipeId": recipe.id
+        })
+      });
     }
   },
   async mounted() {
