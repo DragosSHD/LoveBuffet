@@ -121,7 +121,9 @@ exports.getForUser = async (req, res) => {
         }
         if(recipeHistory) {
             res.status(200).json(recipeHistory.map(obj => {
-                return obj.recipe;
+                const recipe = obj.recipe;
+                recipe.date = obj.assignedAt;
+                return recipe
             }));
         }
     }
