@@ -41,8 +41,19 @@ exports.create = async (req, res) => {
         console.log("ERROR: " + err);
         res.status(500).send({ message: "Could not create account!" })
     });
-    if(user)
-        res.status(201).json(user.username);
+    if(user) {
+        const history = await prisma.history.create({
+            data: {
+                userId: user.id
+            }
+        }).catch(err => {
+            console.log("ERROR: " + err);
+            res.status(500).send({ message: "Could not create account!" })
+        });
+        if(history) {
+            res.status(201).json(user.username);
+        }
+    }
 }
 
 // Get users
@@ -152,7 +163,7 @@ exports.delete = async (req, res) => {
             id: parseInt(id),
         },
     }).catch(err => res.status(500).send({ message: err}));
-    if(deleteUser) {
+    if(deleteUser && !res.headersSent) {
         res.json({
             id: deleteUser.id,
             username: deleteUser.username
