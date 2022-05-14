@@ -17,6 +17,7 @@ require("./routes/user.routes")(app);
 require("./routes/address.routes")(app);
 require("./routes/authentication.routes")(app);
 require("./routes/foodApi.routes")(app);
+require("./routes/recipe.routes")(app);
 
 
 // set port, listen for requests
