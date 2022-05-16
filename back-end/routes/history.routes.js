@@ -1,4 +1,3 @@
-const recipe = require("../controllers/recipe.controller");
 module.exports = app => {
     const history = require('../controllers/history.controller');
     const router = require('express').Router();

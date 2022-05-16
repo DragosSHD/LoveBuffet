@@ -50,6 +50,14 @@ exports.create = async (req, res) => {
             console.log("ERROR: " + err);
             res.status(500).send({ message: "Could not create account!" })
         });
+        const favourites = await prisma.favourites.create({
+            data: {
+                userId: user.id
+            }
+        }).catch(err => {
+            console.log("ERROR: " + err);
+            res.status(500).send({ message: "Could not create account!" })
+        });
         if(history) {
             res.status(201).json(user.username);
         }

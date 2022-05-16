@@ -57,7 +57,7 @@ model Recipe {
   title String
   image String
   hisotry RecipesOnHistory[]
-  favourites Favourites[]
+  favourites RecipesOnFavourites[]
 }
 
 model History {
@@ -71,7 +71,17 @@ model Favourites {
   id Int @id @default(autoincrement())
   user   User @relation(fields: [userId], references: [id])
   userId Int
-  recipes Recipe[]
+  recipes RecipesOnFavourites[]
+}
+
+model RecipesOnFavourites {
+    recipe Recipe @relation(fields: [recipeId], references: [id])
+    recipeId Int
+    favourites Favourites @relation(fields: [favouritesId], references: [id])
+    favouritesId Int
+    assignedAt DateTime @default(now())
+
+    @@id([recipeId, favouritesId])
 }
 
 model RecipesOnHistory {
