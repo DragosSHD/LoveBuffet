@@ -42,7 +42,7 @@ exports.toggleFavourites = async (req,res) => {
             }
             const recipe = await prisma.recipe.findUnique({
                 where: {
-                    id: recipeId
+                    api_id: recipeId.toString()
                 }
             }).catch(err => {
                 console.log(err);
@@ -147,3 +147,55 @@ exports.getForUser = async (req,res) => {
         res.status(500).send({ message: "Error occurred!"});
     }
 }
+
+exports.isFavourite = async (req, res) => {
+    const userId = parseInt(req.params.id);
+    const recipeId = req.query.recipeId;
+    if(!userId) {
+        res.status(400).send({ message: "User ID is required!"});
+    }
+    if(!recipeId) {
+        res.status(400).send({ message: "Recipe ID is required!"});
+    }
+    if(userId && !res.headersSent) {
+        const recipe = await prisma.recipe.findUnique({
+            where: {
+                api_id: recipeId.toString()
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            },
+            include: {
+                favourites: true
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+        const recipeFavourites = await prisma.recipesOnFavourites.findUnique({
+            where: {
+                recipeId_favouritesId: {
+                    recipeId: recipe.id,
+                    favouritesId: user.favourites.id
+                },
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+        if(recipeFavourites) {
+            res.status(302).json(recipeFavourites);
+        }
+        if(!recipeFavourites) {
+            res.status(404).send({ message: "Not found!" });
+        }
+    }
+    if(!res.headersSent) {
+        res.status(500).send({ message: "Error occurred!"})
+    }
+}
+
+
+

@@ -40,14 +40,10 @@ const menuOptions = [
   {
     label: () =>
       h(
-        RouterLink,
-          {
-            to: '/preferences'
-          },
           () => 'Preferences'
       ),
     key: "preferences",
-    disabled: false,
+    disabled: true,
   },
   {
     label: () =>

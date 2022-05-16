@@ -72,7 +72,31 @@ export default {
   },
   methods: {
     async addToFavourites() {
-      this.isFavourite = !this.isFavourite;
+      const res = await fetch(`${this.backend_url}api/favourites/add`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          "userToken": localStorage.jwt,
+          "recipeId": this.id
+        })
+      });
+      if(res.status === 201) {
+        this.isFavourite = true;
+      }
+      if(res.status === 204) {
+        this.isFavourite = false;
+      }
+    },
+    async checkIfFavourite(recipeId) {
+      const res = await fetch(`${this.backend_url}api/favourites/isFavourite/1?recipeId=${recipeId}`);
+      if(res.status === 302) {
+        this.isFavourite = true;
+      }
+      if(res.status === 404) {
+        this.isFavourite = false;
+      }
     }
   },
   watchQuery: ["id"],
@@ -94,7 +118,6 @@ export default {
           this.errMessage = `Product with id: #${this.id} was not found!`;
         }
         if(data.code !== 404) {
-          console.log(data);
           this.title = data.title;
           this.imageUrl = data.image;
           this.description = data.summary;
@@ -103,6 +126,7 @@ export default {
         }
       }
     }
+    await this.checkIfFavourite(this.id);
   }
 }
 </script>

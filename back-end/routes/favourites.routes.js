@@ -7,7 +7,7 @@ module.exports = app => {
 
     router.get("/:id", favourites.getForUser);
 
-    router.put("/", (req, res) => {res.send("Route Not Handled!")});
+    router.get("/isFavourite/:id", favourites.isFavourite);
 
     router.delete("/", (req, res) => {res.send("Route Not Handled!")});
 
