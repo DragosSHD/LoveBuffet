@@ -67,7 +67,7 @@
 <script>
 import { NButton, NIcon, NGrid, NGi, NSkeleton, NAlert, NSpin, NTooltip } from "naive-ui";
 import { Bicycle, Check, Ban } from "@vicons/fa";
-import { fetcher } from "../utils/api";
+import { fetcher, getFoodApiKey } from "../utils/api";
 
 
 export default {
@@ -91,10 +91,6 @@ export default {
     }
   },
   methods: {
-    async getFoodApiKey() {
-      const data = await fetcher(`${this.backend_url}api/foodApi`);
-      return data ? data.key : "err";
-    },
     getRandomCuisine() {
       const choices = ["american", "african", "british", "cajun",
                       "french", "german", "greek", "italian", "irish",
@@ -108,13 +104,15 @@ export default {
       this.changeProduct();
     },
     async changeProduct() {
-      const apiKey = await this.getFoodApiKey();
+      const apiKey = await getFoodApiKey();
       const data = {};
       const DESC_LIMIT = 350;
       const TITLE_LIMIT = 15;
-
+      //TODO: Should come from BE
       if(apiKey !== "err") {
-        data.overview = await fetcher(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&minCalories=5&number=1&cuisine=${this.cuisine}`);
+        data.overview = await fetcher(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&minCalories=5&number=1&cuisine=${this.cuisine}`).catch(() => {
+          document.alert("API limit reached!");
+        });
         data.details = await fetcher(`https://api.spoonacular.com/recipes/${data.overview.results[0].id}/summary?apiKey=${apiKey}`);
       }
       if(data.overview && data.details) {
@@ -138,8 +136,11 @@ export default {
       }
     },
     async viewProduct() {
-      await this.addToHistory(this.productId, this.productName, this.imgUrl);
-      //TODO: Redirect to recipe
+      const done = await this.addToHistory(this.productId, this.productName, this.imgUrl);
+      const recipeId = this.productId;
+      if(done && recipeId) {
+        await this.$router.push({ path: '/recipe', query: { id: recipeId }});
+      }
     },
     async addToHistory(api_id, title, image) {
       fetcher(`${this.backend_url}api/recipes`, {
@@ -164,6 +165,7 @@ export default {
           })
         });
       });
+      return true;
     }
   },
   async mounted() {

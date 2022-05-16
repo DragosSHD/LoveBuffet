@@ -7,6 +7,7 @@ import Register from "../views/Register.vue";
 import Preferences from "../views/Preferences.vue";
 import Recommendation from "../views/Recommendation.vue";
 import Account from "../views/Account.vue";
+import Recipe from "../views/Recipe.vue";
 
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
         path: '/account',
         name: 'Account',
         component: Account
+    },
+    {
+        path: '/recipe',
+        name: 'Recipe',
+        component: Recipe
     }
 ];
 

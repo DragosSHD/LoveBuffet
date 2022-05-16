@@ -6,6 +6,15 @@
       </div>
     </div>
     <main>
+      <div class="empty-container" v-if="!products.length">
+        <n-empty size="huge" description="There's nothing in your history">
+          <template #extra>
+            <n-button size="small" @click="$router.push({ path: '/' });">
+              Find Something New
+            </n-button>
+          </template>
+        </n-empty>
+      </div>
       <n-grid cols="3">
         <n-gi class="food-frame" v-for="product in products">
           <div class="cover-img">
@@ -32,13 +41,13 @@
 </template>
 
 <script>
-import {NGi, NGrid, NImage, NTag} from "naive-ui"
+import { NGi, NGrid, NImage, NTag, NEmpty, NButton } from "naive-ui"
 import {fetcher} from "../utils/api";
 
 export default {
   name: "History",
   components: {
-    NGrid, NGi, NImage, NTag
+    NGrid, NGi, NImage, NTag, NEmpty, NButton
   },
   data() {
     return {
@@ -79,7 +88,7 @@ export default {
 <style scoped>
 .center-layout {
   background: rgb(234,60,93);
-  background: linear-gradient(129deg, rgba(234,60,93,0.700717787114846) 0%, rgba(35,179,93,0) 100%);
+  background: linear-gradient(129deg, rgba(234,60,93,0.1516981792717087) 0%, rgba(35,179,93,0) 100%);
 }
 .page-head {
   width: 100%;
@@ -131,5 +140,11 @@ main {
 }
 .cover-img img {
   object-fit: cover;
+}
+.empty-container {
+  min-height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
