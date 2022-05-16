@@ -15,11 +15,13 @@
           </template>
         </n-empty>
       </div>
-      <n-grid cols="3">
+      <n-grid cols="3" v-if="products.length">
         <n-gi class="food-frame" v-for="product in products">
-          <div class="cover-img">
-            <img :src="product.image" alt="cover-img">
-          </div>
+          <router-link :to="'/recipe?id=' + product.api_id">
+            <div class="cover-img">
+              <img :src="product.image" alt="cover-img">
+            </div>
+          </router-link>
           <div class="product-title">
             <h3>{{ product.title }}</h3>
           </div>

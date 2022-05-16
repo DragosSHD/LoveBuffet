@@ -1,46 +1,78 @@
 <template>
-    <div class="center-layout">
-      <div class="page-head">
-        <h2>Favourites</h2>
-        <div class="sort-items">
-        </div>
+  <div class="center-layout">
+    <div class="page-head">
+      <h2>Favourites</h2>
+      <div class="sort-items">
       </div>
-      <main>
-        <n-grid cols="3">
-          <n-gi class="food-frame" v-for="product in products">
-            <div class="cover-img">
-              <img src="https://spoonacular.com/recipeImages/715594-312x231.jpg" alt="cover-img">
-            </div>
-            <div class="product-title">
-              <h3>Beef Burger</h3>
-            </div>
-            <div class="date-added">
-              <p>23/03/2022</p>
-            </div>
-          </n-gi>
-        </n-grid>
-      </main>
     </div>
+    <main>
+      <div class="empty-container" v-if="!products.length">
+        <n-empty size="huge" description="There's nothing in your favourites">
+          <template #extra>
+            <n-button size="small" @click="$router.push({ path: '/' });">
+              Find Something New
+            </n-button>
+          </template>
+        </n-empty>
+      </div>
+      <n-grid cols="3" v-if="products.length">
+        <n-gi class="food-frame" v-for="product in products">
+          <router-link :to="'/recipe?id=' + product.api_id">
+            <div class="cover-img">
+              <img :src="product.image" alt="cover-img">
+            </div>
+          </router-link>
+          <div class="product-title">
+            <h3>{{ product.title }}</h3>
+          </div>
+          <div class="tag-section">
+            <n-tag type="success" v-if="true">
+              Recipe
+            </n-tag>
+            <n-tag type="info" v-if="false">
+              Delivery
+            </n-tag>
+          </div>
+        </n-gi>
+      </n-grid>
+    </main>
+  </div>
 </template>
 
 <script>
-import { NGrid, NGi, NImage } from "naive-ui"
-
+import { NGi, NGrid, NImage, NTag, NEmpty, NButton } from "naive-ui"
+import {fetcher} from "../utils/api";
 
 export default {
   name: "Favourites",
   components: {
-    NGrid, NGi, NImage
+    NGrid, NGi, NImage, NTag, NEmpty, NButton
   },
   data() {
     return {
-      products: [1, 2, 3, 4, 5],
+      products: [],
     }
   },
   async beforeMount() {
     if(!localStorage.jwt) {
       await this.$router.push({ path: '/login', query: {msg: "infoLog"} });
     }
+  },
+  async mounted() {
+    const user = await fetcher(`${this.backend_url}api/auth/checkJWT`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        token: localStorage.jwt
+      })
+    });
+    const favourites = await fetcher(`${this.backend_url}api/favourites/${user.id}`);
+    this.products = favourites;
+  },
+  methods: {
+
   }
 }
 </script>
@@ -48,7 +80,7 @@ export default {
 <style scoped>
 .center-layout {
   background: rgb(234,60,93);
-  background: linear-gradient(129deg, rgba(234,60,93,0.700717787114846) 0%, rgba(35,179,93,0) 100%);
+  background: linear-gradient(129deg, rgba(234,60,93,0.1516981792717087) 0%, rgba(35,179,93,0) 100%);
 }
 .page-head {
   width: 100%;
@@ -100,5 +132,11 @@ main {
 }
 .cover-img img {
   object-fit: cover;
+}
+.empty-container {
+  min-height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
