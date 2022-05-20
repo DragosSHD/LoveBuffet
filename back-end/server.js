@@ -2,14 +2,14 @@ const express = require('express')
 const app = express()
 const bodyParser = require("body-parser");
 const cors = require('cors');
+const serveStatic = require('serve-static');
+const path = require('path');
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
-app.use(cors())
-// simple route
-app.get("/", (req, res) => {
-res.json({ message: "Welcome to LoveBuffet, where you will fall in love with our food." });
-});
+app.use(cors());
+// Serve the Vue app
+app.use('/', serveStatic(path.join(__dirname, '/dist')));
 
 // ----------------------------- Routes -----------------------------
 require("./routes/product.routes")(app);
