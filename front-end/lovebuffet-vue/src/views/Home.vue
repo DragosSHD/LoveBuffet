@@ -15,7 +15,7 @@
         <n-gi span="0 m:1">
           <n-image id="lovebuffet-phone"
                    alt="love-buffet-logo"
-                   src="./src/assets/img/lovebuffet-phone.png"
+                   :src="phoneImg"
                    width="300"
                    />
         </n-gi>
@@ -93,12 +93,20 @@
 import { NGrid, NGi, NImage, NButton, NIcon, NCard } from "naive-ui";
 import { AppleAlt, DrumstickBite, LinkedinIn, Github, FacebookF } from "@vicons/fa";
 import MemberCard from "../components/MemberCard.vue";
+import phoneImg from "../assets/img/lovebuffet-phone.png";
+import unknownUser from "../assets/img/user-unknown.png";
 
 export default {
   name: "Home",
   components: {
     NGrid, NGi, NImage, NButton, AppleAlt, NIcon, DrumstickBite, NCard,
     LinkedinIn, Github, FacebookF, MemberCard
+  },
+  data() {
+    return {
+      phoneImg: phoneImg,
+      unknownUser: unknownUser
+    }
   },
   beforeMount() {
     if(localStorage.jwt) {

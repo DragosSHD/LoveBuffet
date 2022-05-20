@@ -2,7 +2,7 @@
   <n-card class="card-container" :title="name ? name : 'No name provided'" size="small">
     <template #cover>
       <n-image alt="love-buffet-logo"
-               src="./src/assets/img/user-unknown.png"
+               :src="unknownUser"
                :preview-disabled="true"
       />
     </template>
@@ -27,12 +27,18 @@
 <script>
 import { NCard, NIcon, NImage } from "naive-ui";
 import { LinkedinIn, Github, FacebookF } from "@vicons/fa";
+import unknownUser from "../assets/img/user-unknown.png";
 
 
 export default {
   name: "MemberCard",
   components: {
     NCard, NIcon, NImage, LinkedinIn, Github, FacebookF
+  },
+  data() {
+    return {
+      unknownUser: unknownUser
+    }
   },
   props: {
     name: String,

@@ -10,7 +10,7 @@
         <router-link to="/">
           <n-image id="site-logo"
                    alt="love-buffet-logo"
-                   src="./src/assets/img/logo.png"
+                   :src="loveLogo"
                    width="120"
                    preview-disabled/>
         </router-link>
@@ -35,6 +35,7 @@ import { NMenu, NGrid, NGi, NImage, NIcon } from "naive-ui";
 import { Bars, UserRegular } from "@vicons/fa";
 import { ref, h, watch } from "vue";
 import { RouterLink } from "vue-router";
+import loveLogo from "../assets/img/logo.png";
 
 const menuOptions = [
   {
@@ -81,6 +82,7 @@ export default {
     return {
       iconSize: 30,
       showMenu: false,
+      loveLogo: loveLogo
     }
   },
   watch: {
