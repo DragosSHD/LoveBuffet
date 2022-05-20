@@ -15,8 +15,8 @@
         </n-tooltip>
 
         <div class="dot-separator">&#x2022</div>
-        <n-skeleton height="25px" width="10%" v-if="!caloriesCount"/>
-        <p class="energetic-value" v-if="caloriesCount">{{ caloriesCount }} <span class="smaller">kcal</span></p>
+        <n-skeleton height="25px" width="10%" v-if="!time"/>
+        <p class="energetic-value" v-if="time">{{ time }} <span class="smaller">min</span></p>
       </div>
       <div class="description-section">
         <n-skeleton text :repeat="3" style="width: 90%; margin: 1px 0; height: 25px" v-if="!description"/>
@@ -84,7 +84,7 @@ export default {
       productName: "",
       productFullName: "",
       imgUrl: "",
-      caloriesCount: "",
+      time: "",
       description: "",
       fetchErr: false,
       cuisine: "american"
@@ -100,34 +100,33 @@ export default {
       this.imgUrl = "";
       this.description = "";
       this.productFullName = "";
-      this.caloriesCount = "";
-      this.changeProduct();
+      this.time = "";
+      this.changeProductRandom();
     },
-    async changeProduct() {
+    async changeProductRandom() {
       const apiKey = await getFoodApiKey();
       const data = {};
       const DESC_LIMIT = 350;
       const TITLE_LIMIT = 15;
       //TODO: Should come from BE
       if(apiKey !== "err") {
-        data.overview = await fetcher(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&minCalories=5&number=1&cuisine=${this.cuisine}`).catch(() => {
+        data.recipe = await fetcher(`https://api.spoonacular.com/recipes/random?number=1&apiKey=${apiKey}`).catch(() => {
           document.alert("API limit reached!");
         });
-        data.details = await fetcher(`https://api.spoonacular.com/recipes/${data.overview.results[0].id}/summary?apiKey=${apiKey}`);
       }
-      if(data.overview && data.details) {
+      if(data.recipe.recipes.length) {
+        const recipe = data.recipe.recipes[0];
         this.fetchErr = false;
-        const recipe = data.overview.results[0];
         this.productId = recipe.id;
         this.productFullName = recipe.title;
-        this.caloriesCount = recipe.nutrition.nutrients[0].amount;
+        this.time = recipe.readyInMinutes;
         this.imgUrl = recipe.image;
         this.productName = recipe.title.slice(0, TITLE_LIMIT);
         if(recipe.title.length > TITLE_LIMIT) {
           this.productName += "...";
         }
-        this.description = data.details.summary.slice(0, DESC_LIMIT);
-        if(data.details.summary.length > DESC_LIMIT) {
+        this.description = recipe.summary.slice(0, DESC_LIMIT);
+        if(recipe.summary.length > DESC_LIMIT) {
           this.description += "...";
         }
       }
@@ -169,7 +168,7 @@ export default {
     }
   },
   async mounted() {
-    await this.changeProduct();
+    await this.changeProductRandom();
   }
 }
 </script>
