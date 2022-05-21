@@ -2,13 +2,17 @@ import App from './App.vue';
 import router from './router';
 import { createApp } from 'vue'
 
+const devBackend = 'http://localhost:8080/';
+const herokuBackend = 'https://love-buffet.herokuapp.com/';
+
 const globalVar = {
     data() {
         return {
-            backend_url: 'http://localhost:8080/'
+            backend_url: devBackend
         }
     }
 }
+
 
 const app = createApp(App)
             .use(router);
