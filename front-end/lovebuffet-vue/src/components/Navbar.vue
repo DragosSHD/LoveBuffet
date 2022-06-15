@@ -88,7 +88,17 @@ export default {
   watch: {
     $route (to, from) {
       this.eraseMenu();
+    },
+    showMenu: {
+      handler() {
+        if(this.showMenu === true) {
+          document.documentElement.style.overflow = 'hidden';
+          return;
+        }
+        document.documentElement.style.overflow = 'auto';
+      }
     }
+
   },
   methods: {
     toggleMenu() {

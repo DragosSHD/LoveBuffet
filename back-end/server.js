@@ -9,7 +9,11 @@ const path = require('path');
 app.use(bodyParser.json());
 app.use(cors());
 // Serve the Vue app
-app.use('/', serveStatic(path.join(__dirname, '/dist')));
+// app.use(serveStatic(__dirname + "/dist"));
+// app.route('/*')
+//     .get(function(req, res) {
+//         res.sendFile(path.join(__dirname + '/dist/index.html'));
+//     });
 
 // ----------------------------- Routes -----------------------------
 require("./routes/product.routes")(app);
@@ -20,6 +24,7 @@ require("./routes/foodApi.routes")(app);
 require("./routes/recipe.routes")(app);
 require("./routes/history.routes")(app);
 require("./routes/favourites.routes")(app);
+
 
 
 // set port, listen for requests
