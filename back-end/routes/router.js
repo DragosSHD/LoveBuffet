@@ -1,7 +1,7 @@
 let rootRouter = require('express').Router();
 
 rootRouter.use('/product', require("./product.routes"));
-rootRouter.use('/user', require("./user.routes"));
+rootRouter.use('/users', require("./user.routes"));
 rootRouter.use('/address', require("./address.routes"));
 rootRouter.use('/auth', require("./authentication.routes"));
 rootRouter.use('/foodApi', require("./foodApi.routes"));
