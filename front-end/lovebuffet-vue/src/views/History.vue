@@ -17,25 +17,28 @@
       </div>
       <n-grid cols="1 m:2 l:3" responsive="screen" v-if="products.length">
         <n-gi class="food-frame" v-for="product in products">
-          <router-link :to="'/recipe?id=' + product.api_id">
-            <div class="cover-img">
-              <img :src="product.image" alt="cover-img">
+          <router-link :to="'/recipe?id=' + product.api_id" style="text-decoration: none; color: inherit;">
+            <div>
+              <div class="cover-img">
+                <img :src="product.image" alt="cover-img">
+              </div>
+
+              <div class="product-title">
+                <h3>{{ product.title }}</h3>
+              </div>
+              <div class="tag-section">
+                <n-tag type="success" v-if="true">
+                  Recipe
+                </n-tag>
+                <n-tag type="info" v-if="false">
+                  Delivery
+                </n-tag>
+              </div>
+              <div class="date-added">
+                <p>{{ getFormattedDate(product.date) }}</p>
+              </div>
             </div>
           </router-link>
-          <div class="product-title">
-            <h3>{{ product.title }}</h3>
-          </div>
-          <div class="tag-section">
-            <n-tag type="success" v-if="true">
-              Recipe
-            </n-tag>
-            <n-tag type="info" v-if="false">
-              Delivery
-            </n-tag>
-          </div>
-          <div class="date-added">
-            <p>{{ getFormattedDate(product.date) }}</p>
-          </div>
         </n-gi>
       </n-grid>
     </main>
@@ -43,7 +46,7 @@
 </template>
 
 <script>
-import { NGi, NGrid, NImage, NTag, NEmpty, NButton } from "naive-ui"
+import {NButton, NEmpty, NGi, NGrid, NImage, NTag} from "naive-ui"
 import {fetcher} from "../utils/api";
 
 export default {
@@ -71,8 +74,7 @@ export default {
         token: localStorage.jwt
       })
     });
-    const history = await fetcher(`${this.backend_url}api/history/${user.id}`);
-    this.products = history;
+    this.products = await fetcher(`${this.backend_url}api/history/${user.id}`);
   },
   methods: {
     getFormattedDate(date) {
@@ -124,6 +126,10 @@ main {
   justify-content: space-between;
   -webkit-box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.37);
   box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.37);
+  transition: 0.15s ease;
+}
+.food-frame:hover {
+  transform: scale(1.02);
 }
 .product-title {
   font-size: 1.8em;

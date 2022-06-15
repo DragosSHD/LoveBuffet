@@ -17,22 +17,24 @@
       </div>
       <n-grid cols="1 m:2 l:3" responsive="screen" v-if="products.length">
         <n-gi class="food-frame" v-for="product in products">
-          <router-link :to="'/recipe?id=' + product.api_id">
-            <div class="cover-img">
-              <img :src="product.image" alt="cover-img">
+          <router-link :to="'/recipe?id=' + product.api_id" style="text-decoration: none; color: inherit;">
+          <div>
+              <div class="cover-img">
+                <img :src="product.image" alt="cover-img">
+              </div>
+            <div class="product-title">
+              <h3>{{ product.title }}</h3>
             </div>
+            <div class="tag-section">
+              <n-tag type="success" v-if="true">
+                Recipe
+              </n-tag>
+              <n-tag type="info" v-if="false">
+                Delivery
+              </n-tag>
+            </div>
+          </div>
           </router-link>
-          <div class="product-title">
-            <h3>{{ product.title }}</h3>
-          </div>
-          <div class="tag-section">
-            <n-tag type="success" v-if="true">
-              Recipe
-            </n-tag>
-            <n-tag type="info" v-if="false">
-              Delivery
-            </n-tag>
-          </div>
         </n-gi>
       </n-grid>
     </main>
@@ -113,6 +115,10 @@ main {
   justify-content: space-between;
   -webkit-box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.37);
   box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.37);
+  transition: 0.15s ease;
+}
+.food-frame:hover {
+  transform: scale(1.02);
 }
 .product-title {
   font-size: 1.8em;
