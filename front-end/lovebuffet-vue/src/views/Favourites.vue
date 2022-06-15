@@ -114,11 +114,6 @@ main {
   -webkit-box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.37);
   box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.37);
 }
-.cover-img {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
 .product-title {
   font-size: 1.8em;
   margin: 0;
@@ -128,6 +123,10 @@ main {
 }
 .cover-img img {
   object-fit: cover;
+  width: 100%;
+  overflow: hidden;
+  min-height: 250px;
+  height: 25vh;
 }
 .empty-container {
   min-height: 40vh;
