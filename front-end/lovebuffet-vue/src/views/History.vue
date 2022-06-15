@@ -15,7 +15,7 @@
           </template>
         </n-empty>
       </div>
-      <n-grid cols="3" v-if="products.length">
+      <n-grid cols="1 m:2 l:3" responsive="screen" v-if="products.length">
         <n-gi class="food-frame" v-for="product in products">
           <router-link :to="'/recipe?id=' + product.api_id">
             <div class="cover-img">
