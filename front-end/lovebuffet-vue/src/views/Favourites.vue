@@ -15,7 +15,7 @@
           </template>
         </n-empty>
       </div>
-      <n-grid cols="3" v-if="products.length">
+      <n-grid cols="1 m:2 l:3" responsive="screen" v-if="products.length">
         <n-gi class="food-frame" v-for="product in products">
           <router-link :to="'/recipe?id=' + product.api_id">
             <div class="cover-img">
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { NGi, NGrid, NImage, NTag, NEmpty, NButton } from "naive-ui"
+import {NButton, NEmpty, NGi, NGrid, NImage, NTag} from "naive-ui"
 import {fetcher} from "../utils/api";
 
 export default {
@@ -68,8 +68,7 @@ export default {
         token: localStorage.jwt
       })
     });
-    const favourites = await fetcher(`${this.backend_url}api/favourites/${user.id}`);
-    this.products = favourites;
+    this.products = await fetcher(`${this.backend_url}api/favourites/${user.id}`);
   },
   methods: {
 
@@ -126,9 +125,6 @@ main {
 }
 .product-title > * {
   margin: 0;
-}
-.date-added {
-  font-size: 1.2em;
 }
 .cover-img img {
   object-fit: cover;

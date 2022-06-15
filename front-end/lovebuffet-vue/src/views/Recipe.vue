@@ -138,7 +138,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   min-height: 20vh;
-  width: 60%;
+  max-width: 1150px;
+  min-width: 300px;
+  width: 95%;
 }
 .instructions-area > * {
   text-align: justify;
@@ -166,5 +168,11 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 50vh;
+}
+
+.recipe-img > img {
+  width: 100%;
+  height: auto;
+  max-width: 550px;
 }
 </style>
